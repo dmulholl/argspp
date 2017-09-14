@@ -1,6 +1,6 @@
 # Optional
 
-Optional is a minimalist argument-parsing library for C++ designed for building elegant command-line interfaces.
+Optional is a minimalist argument-parsing library for C++.
 
 
 #### Features
