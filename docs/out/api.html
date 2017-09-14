@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="pygments.css">
+    
+    
+  </head>
+
+  <body class="node-api node">
+
+    <header class="masthead">
+      <h1><a href="index.html">Optional</a></h1>
+      
+        <p class="tagline">An argument-parsing library for C++.</p>
+      
+      <nav class="menu">
+        <input id="menu-check" type="checkbox"/>
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="cli.html">CLI</a></li>
+<li><a href="api.html">API</a></li>
+</ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        <h1>API</h1>
+        
+        <hr>
+      </header>
+      <ul class="stx-toc">
+<li>
+<a href="#basic-usage">Basic Usage</a>
+</li>
+<li>
+<a href="#register-options">Register Options</a>
+</li>
+<li>
+<a href="#retrieve-a-single-value">Retrieve A Single Value</a>
+</li>
+<li>
+<a href="#retrieve-multiple-values">Retrieve Multiple Values</a>
+</li>
+<li>
+<a href="#retrieve-positional-arguments">Retrieve Positional Arguments</a>
+</li>
+<li>
+<a href="#commands">Commands</a>
+</li>
+</ul>
+<hr>
+<p>
+To use Optional in your C++ application add the <code>optional.cpp</code> and <code>optional.h</code> files to your source folder and include the header file:
+</p>
+<pre class="lang-c pygments" data-lang="c">
+<span class="cp">#include</span> <span class="cpf">&quot;optional.h&quot;</span><span class="cp"></span>
+</pre>
+<p>
+The header exports an <code>opt::ArgParser</code> class which provides the public interface to the library.
+</p>
+<p>
+Optional is written in portable C++ 11.
+</p>
+<h2 id="basic-usage">
+Basic Usage
+</h2>
+<p>
+Initialize an argument parser, optionally specifying the application's help text and version:
+</p>
+<pre class="lang-c++ pygments" data-lang="c++">
+<span class="n">opt</span><span class="o">::</span><span class="n">ArgParser</span><span class="p">(</span><span class="n">string</span> <span class="n">helptext</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span> <span class="n">version</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+</pre>
+<p>
+Supplying help text activates an automatic <code>--help</code> flag; supplying a version string activates an automatic <code>--version</code> flag. (Automatic <code>-h</code> and <code>-v</code> shortcuts are also activated unless registered by other options.)
+</p>
+<p>
+You can now register your application's options and commands on the parser using the registration functions described below. Once the required options and commands have been registered, call the parser's <code>parse()</code> method to process the application's command line arguments:
+</p>
+<pre class="lang-c++ pygments" data-lang="c++">
+<span class="kt">void</span> <span class="n">ArgParser</span><span class="o">::</span><span class="n">parse</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+</pre>
+<p>
+The arguments are assumed to be <code>argc</code> and <code>argv</code> as supplied to <code>main()</code>.
+</p>
+<p>
+Parsed option values can be retrieved from the parser instance itself.
+</p>
+<h2 id="register-options">
+Register Options
+</h2>
+<p>
+Optional supports long-form options, <code>--foo</code>, with single-character shortcuts, <code>-f</code>.
+</p>
+<p>
+An option can have an unlimited number of long and short-form aliases. Aliases are specified via the <code>name</code> parameter which accepts a string of space-separated alternatives, e.g. <code>"foo f"</code>.
+</p>
+<p>
+Option values can be separated on the command line by either a space, <code>--foo 123</code>, or an equals symbol, <code>--foo=123</code>.
+</p>
+<dl>
+<dt>
+<code>void ArgParser::newFlag(string name)</code>
+</dt>
+<dd>
+<p>
+Register a flag (a boolean option) with a default value of <code>false</code>. Flag options take no arguments but are either present (<code>true</code>) or absent (<code>false</code>).
+</p>
+</dd>
+<dt>
+<code>void ArgParser::newDouble(string name, double fallback = 0.0)</code>
+</dt>
+<dd>
+<p>
+Register a floating-point option, optionally specifying a default value.
+</p>
+</dd>
+<dt>
+<code>void ArgParser::newInt(string name, int fallback = 0)</code>
+</dt>
+<dd>
+<p>
+Register an integer option, optionally specifying a default value.
+</p>
+</dd>
+<dt>
+<code>void ArgParser::newString(string name, string fallback = "")</code>
+</dt>
+<dd>
+<p>
+Register a string option, optionally specifying a default value.
+</p>
+</dd>
+</dl>
+<h2 id="retrieve-a-single-value">
+Retrieve A Single Value
+</h2>
+<p>
+An option's value can be retrieved from the parser instance using any of its registered aliases.
+</p>
+<p>
+Each option maintains an internal array of values — the value of the option is the final value in the array or the fallback value if the array is empty.
+</p>
+<dl>
+<dt>
+<code>bool ArgParser::found(string name)</code>
+</dt>
+<dd>
+<p>
+Returns true if the specified option was found while parsing.
+</p>
+</dd>
+<dt>
+<code>bool ArgParser::getFlag(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the value of the specified boolean option.
+</p>
+</dd>
+<dt>
+<code>double ArgParser::getDouble(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the value of the specified floating-point option.
+</p>
+</dd>
+<dt>
+<code>int ArgParser::getInt(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the value of the specified integer option.
+</p>
+</dd>
+<dt>
+<code>string ArgParser::getString(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the value of the specified string option.
+</p>
+</dd>
+</dl>
+<h2 id="retrieve-multiple-values">
+Retrieve Multiple Values
+</h2>
+<p>
+An option's internal array of values can be retrieved from the parser instance using any of its registered aliases.
+</p>
+<dl>
+<dt>
+<code>vector&lt;bool&gt; ArgParser::getFlagList(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the specified option's list of values.
+</p>
+</dd>
+<dt>
+<code>vector&lt;double&gt; ArgParser::getDoubleList(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the specified option's list of values.
+</p>
+</dd>
+<dt>
+<code>vector&lt;int&gt; ArgParser::getIntList(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the specified option's list of values.
+</p>
+</dd>
+<dt>
+<code>vector&lt;string&gt; ArgParser::getStringList(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the specified option's list of values.
+</p>
+</dd>
+<dt>
+<code>int ArgParser::lenList(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the length of the specified option's list of values.
+</p>
+</dd>
+</dl>
+<h2 id="retrieve-positional-arguments">
+Retrieve Positional Arguments
+</h2>
+<p>
+Options can be preceded, followed, or interspaced with positional arguments.
+</p>
+<dl>
+<dt>
+<code>string ArgParser::getArg(int index)</code>
+</dt>
+<dd>
+<p>
+Returns the positional argument at the specified index.
+</p>
+</dd>
+<dt>
+<code>vector&lt;string&gt; ArgParser::getArgs()</code>
+</dt>
+<dd>
+<p>
+Returns the positional arguments as a list of strings.
+</p>
+</dd>
+<dt>
+<code>vector&lt;double&gt; ArgParser::getArgsAsFloats()</code>
+</dt>
+<dd>
+<p>
+Attempts to parse and return the positional arguments as a list of floats.
+Exits with an error message on failure.
+</p>
+</dd>
+<dt>
+<code>vector&lt;int&gt; ArgParser::getArgsAsInts()</code>
+</dt>
+<dd>
+<p>
+Attempts to parse and return the positional arguments as a list of
+integers. Exits with an error message on failure.
+</p>
+</dd>
+<dt>
+<code>bool ArgParser::hasArgs()</code>
+</dt>
+<dd>
+<p>
+Returns true if at least one positional argument has been found.
+</p>
+</dd>
+<dt>
+<code>int ArgParser::numArgs()</code>
+</dt>
+<dd>
+<p>
+Returns the number of positional arguments.
+</p>
+</dd>
+</dl>
+<h2 id="commands">
+Commands
+</h2>
+<p>
+Optional supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the <code>newCmd()</code> method:
+</p>
+<pre class="lang-c++ pygments" data-lang="c++">
+<span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">ArgParser</span><span class="o">::</span><span class="n">newCmd</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="n">string</span> <span class="n">helptext</span><span class="p">,</span> <span class="n">opt</span><span class="o">::</span><span class="n">CommandCB</span> <span class="n">callback</span><span class="p">)</span>
+</pre>
+<p>
+This method returns a reference to a new <code>ArgParser</code> instance associated with the command. You can register the command's flags and options on this sub-parser using the standard methods listed above. (Note that you never need to call <code>parse()</code> on a command parser &mdash; if a command is found, its arguments are parsed automatically.)
+</p>
+<ul>
+<li>
+<p>
+Like options, commands can have an unlimited number of aliases specified via the <code>name</code> string.
+</p>
+</li>
+<li>
+<p>
+Commands support an automatic <code>--help</code> flag and an automatic <code>help &lt;name&gt;</code> command using the specified help text.
+</p>
+</li>
+<li>
+<p>
+The specified callback function will be called if the command is found. The callback should accept a reference to the command's <code>ArgParser</code> instance as its sole argument and should return <code>void</code>.
+</p>
+</li>
+</ul>
+<p>
+The following <code>ArgParser</code> methods are also available for processing commands manually:
+</p>
+<dl>
+<dt>
+<code>string ArgParser::getCmdName()</code>
+</dt>
+<dd>
+<p>
+Returns the command name, if the parser has found a command.
+</p>
+</dd>
+<dt>
+<code>ArgParser&amp; ArgParser::getCmdParser()</code>
+</dt>
+<dd>
+<p>
+Returns the command's parser instance, if the parser has found a command.
+</p>
+</dd>
+<dt>
+<code>ArgParser&amp; ArgParser::getParent()</code>
+</dt>
+<dd>
+<p>
+Returns a command parser's parent parser.
+</p>
+</dd>
+<dt>
+<code>bool ArgParser::hasCmd()</code>
+</dt>
+<dd>
+<p>
+Returns true if the parser has found a command.
+</p>
+</dd>
+<dt>
+<code>bool ArgParser::hasParent()</code>
+</dt>
+<dd>
+<p>
+Returns true if the parser has a parent, i.e. is not the root parser.
+</p>
+</dd>
+</dl>
+
+    </article>
+
+    
+
+  </body>
+</html>
