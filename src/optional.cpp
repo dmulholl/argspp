@@ -11,7 +11,7 @@
 
 using namespace std;
 
-using opt::CommandCB;
+using opt::Callback;
 using opt::ArgStream;
 using opt::OptionType;
 using opt::Option;
@@ -274,7 +274,7 @@ vector<double> ArgParser::getArgsAsFloats() {
 // -----------------------------------------------------------------------------
 
 
-ArgParser& ArgParser::newCmd(string name, string helptext, CommandCB cb) {
+ArgParser& ArgParser::newCmd(string name, string helptext, Callback cb) {
     ArgParser *parser = new ArgParser();
     parser->helptext = helptext;
     parser->parent = this;

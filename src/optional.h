@@ -17,7 +17,7 @@ namespace opt {
 
     // Callback type for registering commands.
     class ArgParser;
-    typedef void (*CommandCB)(ArgParser& parser);
+    typedef void (*Callback)(ArgParser& parser);
 
     // Internal use.
     class ArgStream {
@@ -108,7 +108,7 @@ namespace opt {
             ArgParser& newCmd(
                 std::string name,
                 std::string help,
-                CommandCB cb
+                Callback cb
             );
 
             // Utilities for handling commands manually.
@@ -132,7 +132,7 @@ namespace opt {
             std::vector<std::string> arguments;
             std::string command;
             ArgParser *parent = nullptr;
-            CommandCB callback;
+            Callback callback;
 
             void parseLongOption(std::string arg, ArgStream& stream);
             void parseShortOption(std::string arg, ArgStream& stream);
