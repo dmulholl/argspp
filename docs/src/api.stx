@@ -149,9 +149,9 @@ Options can be preceded, followed, or interspaced with positional arguments.
     Returns the positional arguments as a list of strings.
 
 
-||  `vector<double> ArgParser::getArgsAsFloats()`  ||
+||  `vector<double> ArgParser::getArgsAsDoubles()`  ||
 
-    Attempts to parse and return the positional arguments as a list of floats.
+    Attempts to parse and return the positional arguments as a list of doubles.
     Exits with an error message on failure.
 
 
