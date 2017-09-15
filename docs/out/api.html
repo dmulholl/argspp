@@ -306,7 +306,7 @@ Commands
 Optional supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the <code>newCmd()</code> method:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
-<span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">ArgParser</span><span class="o">::</span><span class="n">newCmd</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="n">string</span> <span class="n">helptext</span><span class="p">,</span> <span class="n">opt</span><span class="o">::</span><span class="n">Callback</span> <span class="n">callback</span><span class="p">)</span>
+<span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">ArgParser</span><span class="o">::</span><span class="n">newCmd</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="n">string</span> <span class="n">helptext</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">callback</span><span class="p">)(</span><span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">parser</span><span class="p">))</span>
 </pre>
 <p>
 This method returns a reference to a new <code>ArgParser</code> instance associated with the command. You can register the command's flags and options on this sub-parser using the standard methods listed above. (Note that you never need to call <code>parse()</code> on a command parser &mdash; if a command is found, its arguments are parsed automatically.)

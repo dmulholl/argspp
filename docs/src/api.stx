@@ -178,7 +178,7 @@ Optional supports git-style command interfaces with arbitrarily-nested commands.
 
 ::: c++
 
-    ArgParser& ArgParser::newCmd(string name, string helptext, opt::Callback callback)
+    ArgParser& ArgParser::newCmd(string name, string helptext, void (*callback)(ArgParser& parser))
 
 This method returns a reference to a new `ArgParser` instance associated with the command. You can register the command's flags and options on this sub-parser using the standard methods listed above. (Note that you never need to call `parse()` on a command parser --- if a command is found, its arguments are parsed automatically.)
 
