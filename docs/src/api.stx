@@ -108,11 +108,6 @@ Each option maintains an internal array of values — the value of the option is
 An option's internal array of values can be retrieved from the parser instance using any of its registered aliases.
 
 
-||  `vector<bool> ArgParser::getFlagList(string name)`  ||
-
-    Returns the specified option's list of values.
-
-
 ||  `vector<double> ArgParser::getDoubleList(string name)`  ||
 
     Returns the specified option's list of values.
