@@ -40,7 +40,8 @@ static double tryStringToDouble(string arg) {
     try {
         return stod(arg);
     } catch (invalid_argument) {
-        cerr << "Error: cannot parse '" << arg << "' as a float." << endl;
+        cerr << "Error: cannot parse '" << arg << "' ";
+        cerr << "as a floating-point value." << endl;
         exit(1);
     } catch (out_of_range) {
         cerr << "Error: " << arg << " is out of range." << endl;
