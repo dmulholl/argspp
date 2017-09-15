@@ -56,7 +56,6 @@ namespace opt {
 
     // ArgParser provides the external interface to the library.
     class ArgParser {
-
         public:
 
             // Application help text and version string.
