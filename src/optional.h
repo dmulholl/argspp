@@ -15,7 +15,7 @@
 
 namespace opt {
 
-    // Callback type for registering commands.
+    // Callback function for commands.
     class ArgParser;
     typedef void (*Callback)(ArgParser& parser);
 
