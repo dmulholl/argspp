@@ -3,7 +3,7 @@
 //
 // Author: Darren Mulholland <darren@mulholland.xyz>
 // License: Public Domain
-// Version: 0.1.0
+// Version: 0.2.0
 // -----------------------------------------------------------------------------
 
 #pragma once
@@ -102,7 +102,7 @@ namespace opt {
             std::string getArg(int index);
             std::vector<std::string> getArgs();
             std::vector<int> getArgsAsInts();
-            std::vector<double> getArgsAsFloats();
+            std::vector<double> getArgsAsDoubles();
 
             // Register a command.
             ArgParser& newCmd(

@@ -260,7 +260,7 @@ vector<int> ArgParser::getArgsAsInts() {
 }
 
 
-vector<double> ArgParser::getArgsAsFloats() {
+vector<double> ArgParser::getArgsAsDoubles() {
     vector<double> values;
     for (auto const & arg: arguments) {
         values.push_back(tryStringToDouble(arg));
