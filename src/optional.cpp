@@ -11,7 +11,6 @@
 
 using namespace std;
 
-using opt::Callback;
 using opt::ArgStream;
 using opt::OptionType;
 using opt::Option;
@@ -275,11 +274,13 @@ vector<double> ArgParser::getArgsAsDoubles() {
 // -----------------------------------------------------------------------------
 
 
-ArgParser& ArgParser::newCmd(string name, string helptext, Callback cb) {
+ArgParser& ArgParser::newCmd(
+    string name, string helptext, void (*callback)(ArgParser& parser)) {
+
     ArgParser *parser = new ArgParser();
     parser->helptext = helptext;
     parser->parent = this;
-    parser->callback = cb;
+    parser->callback = callback;
 
     stringstream stream(name);
     string alias;

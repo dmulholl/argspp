@@ -15,10 +15,6 @@
 
 namespace opt {
 
-    // Callback function for commands.
-    class ArgParser;
-    typedef void (*Callback)(ArgParser& parser);
-
     // Internal use.
     class ArgStream {
         public:
@@ -104,7 +100,11 @@ namespace opt {
             std::vector<double> getArgsAsDoubles();
 
             // Register a command.
-            ArgParser& newCmd(std::string name, std::string help, Callback cb);
+            ArgParser& newCmd(
+                std::string name,
+                std::string help,
+                void (*callback)(ArgParser& parser)
+            );
 
             // Utilities for handling commands manually.
             bool hasCmd();
@@ -127,7 +127,7 @@ namespace opt {
             std::vector<std::string> arguments;
             std::string command;
             ArgParser *parent = nullptr;
-            Callback callback;
+            void (*callback)(ArgParser& parser);
 
             void parseLongOption(std::string arg, ArgStream& stream);
             void parseShortOption(std::string arg, ArgStream& stream);
