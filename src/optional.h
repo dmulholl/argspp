@@ -69,9 +69,9 @@ namespace opt {
 
             // Register options.
             void newFlag(std::string name);
-            void newString(std::string name, std::string fallback = "");
-            void newInt(std::string name, int fallback = 0);
             void newDouble(std::string name, double fallback = 0.0);
+            void newInt(std::string name, int fallback = 0);
+            void newString(std::string name, std::string fallback = "");
 
             // Parse command line arguments.
             void parse(int argc, char **argv);
@@ -80,22 +80,22 @@ namespace opt {
             // Returns true if the named option was found while parsing.
             bool found(std::string name);
 
-            // Fetch option values.
-            bool getFlag(std::string name);
-            std::string getString(std::string name);
-            int getInt(std::string name);
+            // Retrieve option values.
             double getDouble(std::string name);
+            bool getFlag(std::string name);
+            int getInt(std::string name);
+            std::string getString(std::string name);
 
             // Returns the length of the named option's list of values.
             int lenList(std::string name);
 
-            // Fetch list option values.
+            // Retrieve list option values.
             std::vector<bool> getFlagList(std::string name);
             std::vector<std::string> getStringList(std::string name);
             std::vector<int> getIntList(std::string name);
             std::vector<double> getDoubleList(std::string name);
 
-            // Fetch positional arguments.
+            // Retrieve positional arguments.
             bool hasArgs();
             int numArgs();
             std::string getArg(int index);
@@ -104,11 +104,7 @@ namespace opt {
             std::vector<double> getArgsAsDoubles();
 
             // Register a command.
-            ArgParser& newCmd(
-                std::string name,
-                std::string help,
-                Callback cb
-            );
+            ArgParser& newCmd(std::string name, std::string help, Callback cb);
 
             // Utilities for handling commands manually.
             bool hasCmd();
