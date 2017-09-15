@@ -206,11 +206,6 @@ int ArgParser::lenList(string name) {
 }
 
 
-vector<bool> ArgParser::getFlagList(string name) {
-    return options[name]->bools;
-}
-
-
 vector<string> ArgParser::getStringList(string name) {
     return options[name]->strings;
 }

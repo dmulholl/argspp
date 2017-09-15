@@ -3,7 +3,7 @@
 //
 // Author: Darren Mulholland <darren@mulholland.xyz>
 // License: Public Domain
-// Version: 0.3.0
+// Version: 0.4.0
 // -----------------------------------------------------------------------------
 
 #pragma once
@@ -86,10 +86,9 @@ namespace opt {
             int lenList(std::string name);
 
             // Retrieve list option values.
-            std::vector<bool> getFlagList(std::string name);
-            std::vector<std::string> getStringList(std::string name);
-            std::vector<int> getIntList(std::string name);
             std::vector<double> getDoubleList(std::string name);
+            std::vector<int> getIntList(std::string name);
+            std::vector<std::string> getStringList(std::string name);
 
             // Retrieve positional arguments.
             bool hasArgs();
