@@ -18,7 +18,7 @@ namespace opt {
     // Internal use.
     class ArgStream {
         public:
-            void append(std::string arg);
+            void append(std::string const& arg);
             std::string next();
             bool hasNext();
         private:
@@ -47,7 +47,7 @@ namespace opt {
             Option(OptionType type)
                 : type(type) {}
 
-            void trySetValue(std::string value);
+            void trySetValue(std::string const& value);
     };
 
     // ArgParser provides the external interface to the library.
@@ -58,37 +58,42 @@ namespace opt {
             std::string helptext;
             std::string version;
 
-            ArgParser(std::string helptext = "", std::string version = "")
-                : helptext(helptext), version(version) {}
+            ArgParser(
+                std::string const& helptext = "",
+                std::string const& version = ""
+            ) : helptext(helptext), version(version) {}
 
             ~ArgParser();
 
             // Register options.
-            void newFlag(std::string name);
-            void newDouble(std::string name, double fallback = 0.0);
-            void newInt(std::string name, int fallback = 0);
-            void newString(std::string name, std::string fallback = "");
+            void newFlag(std::string const& name);
+            void newDouble(std::string const& name, double fallback = 0.0);
+            void newInt(std::string const& name, int fallback = 0);
+            void newString(
+                std::string const& name,
+                std::string const& fallback = ""
+            );
 
             // Parse command line arguments.
             void parse(int argc, char **argv);
             void parse(ArgStream& args);
 
             // Returns true if the named option was found while parsing.
-            bool found(std::string name);
+            bool found(std::string const& name);
 
             // Retrieve option values.
-            double getDouble(std::string name);
-            bool getFlag(std::string name);
-            int getInt(std::string name);
-            std::string getString(std::string name);
+            double getDouble(std::string const& name);
+            bool getFlag(std::string const& name);
+            int getInt(std::string const& name);
+            std::string getString(std::string const& name);
 
             // Returns the length of the named option's list of values.
-            int lenList(std::string name);
+            int lenList(std::string const& name);
 
             // Retrieve list option values.
-            std::vector<double> getDoubleList(std::string name);
-            std::vector<int> getIntList(std::string name);
-            std::vector<std::string> getStringList(std::string name);
+            std::vector<double> getDoubleList(std::string const& name);
+            std::vector<int> getIntList(std::string const& name);
+            std::vector<std::string> getStringList(std::string const& name);
 
             // Retrieve positional arguments.
             bool hasArgs();
@@ -100,8 +105,8 @@ namespace opt {
 
             // Register a command.
             ArgParser& newCmd(
-                std::string name,
-                std::string help,
+                std::string const& name,
+                std::string const& help,
                 void (*callback)(ArgParser& parser)
             );
 

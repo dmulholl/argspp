@@ -22,28 +22,28 @@ using opt::ArgParser;
 // -----------------------------------------------------------------------------
 
 
-static int tryStringToInt(string arg) {
+static int tryStringToInt(string const& arg) {
     try {
         return stoi(arg);
     } catch (invalid_argument) {
-        cerr << "Error: cannot parse '" << arg << "' as an integer." << endl;
+        cerr << "Error: cannot parse '" << arg << "' as an integer.\n";
         exit(1);
     } catch (out_of_range) {
-        cerr << "Error: " << arg << " is out of range." << endl;
+        cerr << "Error: " << arg << " is out of range.\n";
         exit(1);
     }
 }
 
 
-static double tryStringToDouble(string arg) {
+static double tryStringToDouble(string const& arg) {
     try {
         return stod(arg);
     } catch (invalid_argument) {
         cerr << "Error: cannot parse '" << arg << "' ";
-        cerr << "as a floating-point value." << endl;
+        cerr << "as a floating-point value.\n";
         exit(1);
     } catch (out_of_range) {
-        cerr << "Error: " << arg << " is out of range." << endl;
+        cerr << "Error: " << arg << " is out of range.\n";
         exit(1);
     }
 }
@@ -54,7 +54,7 @@ static double tryStringToDouble(string arg) {
 // -----------------------------------------------------------------------------
 
 
-void Option::trySetValue(string value) {
+void Option::trySetValue(string const& value) {
     switch (this->type) {
         case OptionType::String:
             this->strings.push_back(value);
@@ -66,7 +66,7 @@ void Option::trySetValue(string value) {
             this->doubles.push_back(tryStringToDouble(value));
             break;
         case OptionType::Flag:
-            cerr << "Option::trySetValue: invalid code path." << endl;
+            cerr << "Option::trySetValue: invalid code path.\n";
             exit(1);
     }
 }
@@ -77,7 +77,7 @@ void Option::trySetValue(string value) {
 // -----------------------------------------------------------------------------
 
 
-void ArgStream::append(string arg) {
+void ArgStream::append(string const& arg) {
     args.push_back(arg);
 }
 
@@ -99,7 +99,7 @@ bool ArgStream::hasNext() {
 // -----------------------------------------------------------------------------
 
 
-void ArgParser::newFlag(string name) {
+void ArgParser::newFlag(string const& name) {
     Option* option = new Option(OptionType::Flag);
 
     stringstream stream(name);
@@ -111,7 +111,7 @@ void ArgParser::newFlag(string name) {
 }
 
 
-void ArgParser::newString(string name, string fallback) {
+void ArgParser::newString(string const& name, string const& fallback) {
     Option* option = new Option(OptionType::String);
     option->fb_string = fallback;
 
@@ -124,7 +124,7 @@ void ArgParser::newString(string name, string fallback) {
 }
 
 
-void ArgParser::newInt(string name, int fallback) {
+void ArgParser::newInt(string const& name, int fallback) {
     Option* option = new Option(OptionType::Int);
     option->fb_int = fallback;
 
@@ -137,7 +137,7 @@ void ArgParser::newInt(string name, int fallback) {
 }
 
 
-void ArgParser::newDouble(string name, double fallback) {
+void ArgParser::newDouble(string const& name, double fallback) {
     Option* option = new Option(OptionType::Double);
     option->fb_double = fallback;
 
@@ -155,12 +155,12 @@ void ArgParser::newDouble(string name, double fallback) {
 // -----------------------------------------------------------------------------
 
 
-bool ArgParser::found(string name) {
+bool ArgParser::found(string const& name) {
     return options[name]->found;
 }
 
 
-bool ArgParser::getFlag(string name) {
+bool ArgParser::getFlag(string const& name) {
     if (options[name]->bools.size() > 0) {
         return options[name]->bools.back();
     }
@@ -168,7 +168,7 @@ bool ArgParser::getFlag(string name) {
 }
 
 
-string ArgParser::getString(string name) {
+string ArgParser::getString(string const& name) {
     if (options[name]->strings.size() > 0) {
         return options[name]->strings.back();
     }
@@ -176,7 +176,7 @@ string ArgParser::getString(string name) {
 }
 
 
-int ArgParser::getInt(string name) {
+int ArgParser::getInt(string const& name) {
     if (options[name]->ints.size() > 0) {
         return options[name]->ints.back();
     }
@@ -184,7 +184,7 @@ int ArgParser::getInt(string name) {
 }
 
 
-double ArgParser::getDouble(string name) {
+double ArgParser::getDouble(string const& name) {
     if (options[name]->doubles.size() > 0) {
         return options[name]->doubles.back();
     }
@@ -192,7 +192,7 @@ double ArgParser::getDouble(string name) {
 }
 
 
-int ArgParser::lenList(string name) {
+int ArgParser::lenList(string const& name) {
     switch (options[name]->type) {
         case OptionType::Flag:
             return options[name]->bools.size();
@@ -206,17 +206,17 @@ int ArgParser::lenList(string name) {
 }
 
 
-vector<string> ArgParser::getStringList(string name) {
+vector<string> ArgParser::getStringList(string const& name) {
     return options[name]->strings;
 }
 
 
-vector<int> ArgParser::getIntList(string name) {
+vector<int> ArgParser::getIntList(string const& name) {
     return options[name]->ints;
 }
 
 
-vector<double> ArgParser::getDoubleList(string name) {
+vector<double> ArgParser::getDoubleList(string const& name) {
     return options[name]->doubles;
 }
 
@@ -270,7 +270,9 @@ vector<double> ArgParser::getArgsAsDoubles() {
 
 
 ArgParser& ArgParser::newCmd(
-    string name, string helptext, void (*callback)(ArgParser& parser)) {
+    string const& name,
+    string const& helptext,
+    void (*callback)(ArgParser& parser)) {
 
     ArgParser *parser = new ArgParser();
     parser->helptext = helptext;
@@ -324,8 +326,7 @@ void ArgParser::parseEqualsOption(string prefix, string name, string value) {
     // Do we have a registered option?
     auto const & element = options.find(name);
     if (element == options.end()) {
-        cerr << "Error: " << prefix << name << " is not a recognised option.";
-        cerr << endl;
+        cerr << "Error: " << prefix << name << " is not a recognised option.\n";
         exit(1);
     }
     Option *opt = element->second;
@@ -334,13 +335,13 @@ void ArgParser::parseEqualsOption(string prefix, string name, string value) {
     // Boolean flags should never contain an equals sign.
     if (opt->type == OptionType::Flag) {
         cerr << "Error: invalid format for boolean flag ";
-        cerr << prefix << name << "." << endl;
+        cerr << prefix << name << ".\n";
         exit(1);
     }
 
     // Make sure we have a value.
     if (value.size() == 0) {
-        cerr << "Error: missing value for " << prefix << name << "." << endl;
+        cerr << "Error: missing value for " << prefix << name << ".\n";
         exit(1);
     }
 
@@ -368,7 +369,7 @@ void ArgParser::parseLongOption(string arg, ArgStream& stream) {
         } else if (stream.hasNext()) {
             opt->trySetValue(stream.next());
         } else {
-            cerr << "Error: missing argument for --" << arg << "." << endl;
+            cerr << "Error: missing argument for --" << arg << ".\n";
             exit(1);
         }
         return;
@@ -385,7 +386,7 @@ void ArgParser::parseLongOption(string arg, ArgStream& stream) {
     }
 
     // The argument is not a registered or automatic option name.
-    cerr << "Error: --" << arg << " is not a recognised option." << endl;
+    cerr << "Error: --" << arg << " is not a recognised option.\n";
     exit(1);
 }
 
@@ -412,8 +413,7 @@ void ArgParser::parseShortOption(string arg, ArgStream& stream) {
             } else if (c == 'v' && this->version != "") {
                 this->exitVersion();
             } else {
-                cerr << "Error: -" << c << " is not a recognised option.";
-                cerr << endl;
+                cerr << "Error: -" << c << " is not a recognised option.\n";
                 exit(1);
             }
         }
@@ -426,7 +426,7 @@ void ArgParser::parseShortOption(string arg, ArgStream& stream) {
         } else if (stream.hasNext()) {
             opt->trySetValue(stream.next());
         } else {
-            cerr << "Error: missing argument for -" << c << "." << endl;
+            cerr << "Error: missing argument for -" << c << ".\n";
             exit(1);
         }
     }
@@ -489,14 +489,13 @@ void ArgParser::parse(ArgStream& stream) {
                 string name = stream.next();
                 if (commands.find(name) == commands.end()) {
                     cerr << "Error: '" << name;
-                    cerr << "' is not a recognised command" << endl;
+                    cerr << "' is not a recognised command.\n";
                     exit(1);
                 } else {
                     commands[name]->exitHelp();
                 }
             } else {
-                cerr << "Error: the help command requires an argument.";
-                cerr << endl;
+                cerr << "Error: the help command requires an argument.\n";
                 exit(1);
             }
         }
@@ -540,7 +539,7 @@ static ostream& operator<<(ostream& stream, const vector<T>& vec) {
 
 // Print the parser instance to standard out.
 void ArgParser::print() {
-    cout << "Options:" << endl;
+    cout << "Options:\n";
     if (options.size() > 0) {
         for (auto element: options) {
             cout << "  " << element.first << ": ";
@@ -563,26 +562,26 @@ void ArgParser::print() {
                     cout << option->doubles;
                     break;
             }
-            cout << endl;
+            cout << "\n";
         }
     } else {
-        cout << "  [none]" << endl;
+        cout << "  [none]\n";
     }
 
-    cout << endl << "Arguments:" << endl;
+    cout << "\nArguments:\n";
     if (arguments.size() > 0) {
         for (auto arg: arguments) {
-            cout << "  " << arg << endl;
+            cout << "  " << arg << "\n";
         }
     } else {
-        cout << "  [none]" << endl;
+        cout << "  [none]\n";
     }
 
-    cout << endl << "Command:" << endl;
+    cout << "\nCommand:\n";
     if (this->hasCmd()) {
-        cout << "  " << command << endl;
+        cout << "  " << command << "\n";
     } else {
-        cout << "  [none]" << endl;
+        cout << "  [none]\n";
     }
 }
 
