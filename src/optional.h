@@ -106,7 +106,7 @@ namespace opt {
             // Register a command.
             ArgParser& newCmd(
                 std::string const& name,
-                std::string const& help,
+                std::string const& helptext,
                 void (*callback)(ArgParser& parser)
             );
 
