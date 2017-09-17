@@ -99,54 +99,38 @@ bool ArgStream::hasNext() {
 // -----------------------------------------------------------------------------
 
 
-void ArgParser::newFlag(string const& name) {
-    Option* option = new Option(OptionType::Flag);
-
+void ArgParser::registerOption(string const& name, Option* option) {
     stringstream stream(name);
     string alias;
-
     while (stream >> alias) {
         options[alias] = option;
     }
+}
+
+
+void ArgParser::newFlag(string const& name) {
+    registerOption(name, new Option(OptionType::Flag));
 }
 
 
 void ArgParser::newString(string const& name, string const& fallback) {
     Option* option = new Option(OptionType::String);
     option->fb_string = fallback;
-
-    stringstream stream(name);
-    string alias;
-
-    while (stream >> alias) {
-        options[alias] = option;
-    }
+    registerOption(name, option);
 }
 
 
 void ArgParser::newInt(string const& name, int fallback) {
     Option* option = new Option(OptionType::Int);
     option->fb_int = fallback;
-
-    stringstream stream(name);
-    string alias;
-
-    while (stream >> alias) {
-        options[alias] = option;
-    }
+    registerOption(name, option);
 }
 
 
 void ArgParser::newDouble(string const& name, double fallback) {
     Option* option = new Option(OptionType::Double);
     option->fb_double = fallback;
-
-    stringstream stream(name);
-    string alias;
-
-    while (stream >> alias) {
-        options[alias] = option;
-    }
+    registerOption(name, option);
 }
 
 
@@ -355,7 +339,7 @@ void ArgParser::parseLongOption(string arg, ArgStream& stream) {
     // Do we have an option of the form --name=value?
     size_t pos = arg.find("=");
     if (pos != string::npos) {
-        this->parseEqualsOption("--", arg.substr(0, pos), arg.substr(pos + 1));
+        parseEqualsOption("--", arg.substr(0, pos), arg.substr(pos + 1));
         return;
     }
 
@@ -377,12 +361,12 @@ void ArgParser::parseLongOption(string arg, ArgStream& stream) {
 
     // Is the argument an automatic --help flag?
     if (arg == "help" && this->helptext != "") {
-        this->exitHelp();
+        exitHelp();
     }
 
     // Is the argument an automatic --version flag?
     if (arg == "version" && this->version != "") {
-        this->exitVersion();
+        exitVersion();
     }
 
     // The argument is not a registered or automatic option name.
@@ -397,7 +381,7 @@ void ArgParser::parseShortOption(string arg, ArgStream& stream) {
     // Do we have an option of the form -n=value?
     size_t pos = arg.find("=");
     if (pos != string::npos) {
-        this->parseEqualsOption("-", arg.substr(0, pos), arg.substr(pos + 1));
+        parseEqualsOption("-", arg.substr(0, pos), arg.substr(pos + 1));
         return;
     }
 
@@ -409,9 +393,9 @@ void ArgParser::parseShortOption(string arg, ArgStream& stream) {
         auto const & element = options.find(string(1, c));
         if (element == options.end()) {
             if (c == 'h' && this->helptext != "") {
-                this->exitHelp();
+                exitHelp();
             } else if (c == 'v' && this->version != "") {
-                this->exitVersion();
+                exitVersion();
             } else {
                 cerr << "Error: -" << c << " is not a recognised option.\n";
                 exit(1);
@@ -457,7 +441,7 @@ void ArgParser::parse(ArgStream& stream) {
 
         // Is the argument a long-form option or flag?
         if (arg.compare(0, 2, "--") == 0) {
-            this->parseLongOption(arg.substr(2), stream);
+            parseLongOption(arg.substr(2), stream);
             continue;
         }
 
@@ -468,7 +452,7 @@ void ArgParser::parse(ArgStream& stream) {
             if (arg.size() == 1 || isdigit(arg[1])) {
                 arguments.push_back(arg);
             } else {
-                this->parseShortOption(arg.substr(1), stream);
+                parseShortOption(arg.substr(1), stream);
             }
             continue;
         }
@@ -514,7 +498,7 @@ void ArgParser::parse(int argc, char **argv) {
     for (int i = 1; i < argc; i++) {
         stream.append(argv[i]);
     }
-    this->parse(stream);
+    parse(stream);
 }
 
 
@@ -588,14 +572,14 @@ void ArgParser::print() {
 
 // Print the parser's help text and exit.
 void ArgParser::exitHelp() {
-    cout << this->helptext << endl;
+    cout << helptext << endl;
     exit(0);
 }
 
 
 // Print the parser's version string and exit.
 void ArgParser::exitVersion() {
-    cout << this->version << endl;
+    cout << version << endl;
     exit(0);
 }
 

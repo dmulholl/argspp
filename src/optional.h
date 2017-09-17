@@ -133,6 +133,7 @@ namespace opt {
             ArgParser *parent = nullptr;
             void (*callback)(ArgParser& parser);
 
+            void registerOption(std::string const& name, Option* option);
             void parseLongOption(std::string arg, ArgStream& stream);
             void parseShortOption(std::string arg, ArgStream& stream);
             void parseEqualsOption(
