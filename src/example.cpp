@@ -1,9 +1,9 @@
 // -----------------------------------------------------------------------------
-// A simple application demonstrating Optional in action.
+// A simple application demonstrating Options in action.
 // -----------------------------------------------------------------------------
 
 #include <iostream>
-#include "optional.h"
+#include "options.h"
 
 using namespace std;
 

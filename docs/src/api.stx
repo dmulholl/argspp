@@ -6,15 +6,15 @@ title: API
 
 ---
 
-To use Optional in your C++ application add the `optional.cpp` and `optional.h` files to your source folder and include the header file:
+To use Options in your C++ application add the `options.cpp` and `options.h` files to your source folder and include the header file:
 
 ::: c
 
-    #include "optional.h"
+    #include "options.h"
 
 The header exports an `opt::ArgParser` class which provides the public interface to the library.
 
-Optional is written in portable C++ 11.
+Options is written in portable C++ 11.
 
 
 
@@ -42,7 +42,7 @@ Parsed option values can be retrieved from the parser instance itself.
 
 ## Register Options
 
-Optional supports long-form options, `--foo`, with single-character shortcuts, `-f`.
+Options supports long-form options, `--foo`, with single-character shortcuts, `-f`.
 
 An option can have an unlimited number of long and short-form aliases. Aliases are specified via the `name` parameter which accepts a string of space-separated alternatives, e.g. `"foo f"`.
 
@@ -169,7 +169,7 @@ Options can be preceded, followed, or interspaced with positional arguments.
 
 ## Commands
 
-Optional supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the `newCmd()` method:
+Options supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the `newCmd()` method:
 
 ::: c++
 

@@ -1,6 +1,6 @@
-# Optional
+# Options
 
-Optional is a minimalist argument-parsing library for C++.
+Options is a minimalist argument-parsing library for C++.
 
 
 #### Features
@@ -25,5 +25,5 @@ Optional is a minimalist argument-parsing library for C++.
 * [Sample Application][sample]
 
 
-[docs]: https://mulholland.xyz/docs/optional/
-[sample]: https://github.com/dmulholland/optional/blob/master/src/example.cpp
+[docs]: https://mulholland.xyz/docs/options/
+[sample]: https://github.com/dmulholland/options/blob/master/src/example.cpp

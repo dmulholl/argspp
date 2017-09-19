@@ -2,6 +2,6 @@
 # Site Configuration File
 # --------------------------------------------------------------------------
 
-title = "Optional"
+title = "Options"
 
 tagline = "An argument-parsing library for C++."

@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// Optional: a minimalist argument-parsing library written in portable C++11.
+// Options: a minimalist argument-parsing library written in portable C++11.
 //
 // Author: Darren Mulholland <darren@mulholland.xyz>
 // License: Public Domain

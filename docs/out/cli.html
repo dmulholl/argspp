@@ -14,7 +14,7 @@
   <body class="node-cli node">
 
     <header class="masthead">
-      <h1><a href="index.html">Optional</a></h1>
+      <h1><a href="index.html">Options</a></h1>
       
         <p class="tagline">An argument-parsing library for C++.</p>
       
@@ -43,7 +43,7 @@
 Options
 </h4>
 <p>
-Optional supports four kinds of options: boolean, string, integer, and floating-point.
+Options supports four kinds of options: boolean, string, integer, and floating-point.
 </p>
 <ul>
 <li>
@@ -88,16 +88,16 @@ the value of the option <code>foo</code> is <code>456</code> but the array <code
 Positional Arguments
 </h3>
 <p>
-Options can be preceded, followed, or interspaced with positional arguments. Optional assembles all positional arguments together into a single, undifferentiated array of strings. Convenience functions are supplied for parsing these strings as integers or doubles.
+Options can be preceded, followed, or interspaced with positional arguments. Options assembles all positional arguments together into a single, undifferentiated array of strings. Convenience functions are supplied for parsing these strings as integers or doubles.
 </p>
 <p>
-Optional supports the standard <code>--</code> switch for turning off option-parsing. All arguments following a <code>--</code> will be treated as positional arguments, even if they begin with a single or double dash.
+Options supports the standard <code>--</code> switch for turning off option-parsing. All arguments following a <code>--</code> will be treated as positional arguments, even if they begin with a single or double dash.
 </p>
 <h3 id="commands">
 Commands
 </h3>
 <p>
-Optional supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic <code>--help</code> flag and an automatic <code>help &lt;cmd&gt;</code> command, i.e. the commands
+Options supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic <code>--help</code> flag and an automatic <code>help &lt;cmd&gt;</code> command, i.e. the commands
 </p>
 <pre>
 $ myapp &lt;cmd&gt; --help

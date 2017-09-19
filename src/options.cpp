@@ -1,8 +1,8 @@
 // -----------------------------------------------------------------------------
-// Optional: a minimalist argument-parsing library written in portable C++11.
+// Options: a minimalist argument-parsing library written in portable C++11.
 // -----------------------------------------------------------------------------
 
-#include "optional.h"
+#include "options.h"
 
 #include <algorithm>
 #include <cctype>
