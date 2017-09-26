@@ -4,7 +4,7 @@ title: Command Line Interface
 
 #### Options
 
-Options supports four kinds of options: boolean, string, integer, and floating-point.
+The Options library supports four kinds of options: boolean, string, integer, and floating-point.
 
 * Boolean options take no arguments but are either present (*true*) or absent (*false*).
 
@@ -22,7 +22,7 @@ Options are registered with fallback values which are used if the option is not 
 
 ### Multivalued Options
 
-Options can be treated as singular or multivalued as circumstances require. Each option maintains an internal array to which newly parsed values are appended; the (singular) value of the option is the final value in the array, or the fallback value if the array is empty.
+An individual option can be treated as singular or multivalued as circumstances require. Each option maintains an internal array to which newly parsed values are appended; the (singular) value of the option is the final value in the array, or the fallback value if the array is empty.
 
 For example, in the command below:
 
@@ -34,15 +34,15 @@ the value of the option `foo` is `456` but the array `[123, 456]` is also availa
 
 ### Positional Arguments
 
-Options can be preceded, followed, or interspaced with positional arguments. Options assembles all positional arguments together into a single, undifferentiated array of strings. Convenience functions are supplied for parsing these strings as integers or doubles.
+Command line options can be preceded, followed, or interspaced with positional arguments. The parser assembles all positional arguments together into a single, undifferentiated array of strings. Convenience functions are supplied for parsing these strings as integers or doubles.
 
-Options supports the standard `--` switch for turning off option-parsing. All arguments following a `--` will be treated as positional arguments, even if they begin with a single or double dash.
+The parser supports the standard `--` switch for turning off option-parsing. All arguments following a `--` will be treated as positional arguments, even if they begin with a single or double dash.
 
 
 
 ### Commands
 
-Options supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic `--help` flag and an automatic `help <cmd>` command, i.e. the commands
+The Options library supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic `--help` flag and an automatic `help <cmd>` command, i.e. the commands
 
     $ myapp <cmd> --help
 

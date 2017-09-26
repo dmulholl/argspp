@@ -2,7 +2,7 @@
 title: Home
 meta title: Options &mdash; an argument-parsing library for C++
 meta description: >
-    Options is an argument-parsing library designed for building elegant command-line interfaces.
+    Options is a minimalist argument-parsing library designed for building elegant command-line interfaces.
 ---
 
 Options is an argument-parsing library designed for building elegant command-line interfaces.

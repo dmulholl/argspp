@@ -43,7 +43,7 @@
 Options
 </h4>
 <p>
-Options supports four kinds of options: boolean, string, integer, and floating-point.
+The Options library supports four kinds of options: boolean, string, integer, and floating-point.
 </p>
 <ul>
 <li>
@@ -73,7 +73,7 @@ Options are registered with fallback values which are used if the option is not 
 Multivalued Options
 </h3>
 <p>
-Options can be treated as singular or multivalued as circumstances require. Each option maintains an internal array to which newly parsed values are appended; the (singular) value of the option is the final value in the array, or the fallback value if the array is empty.
+An individual option can be treated as singular or multivalued as circumstances require. Each option maintains an internal array to which newly parsed values are appended; the (singular) value of the option is the final value in the array, or the fallback value if the array is empty.
 </p>
 <p>
 For example, in the command below:
@@ -88,16 +88,16 @@ the value of the option <code>foo</code> is <code>456</code> but the array <code
 Positional Arguments
 </h3>
 <p>
-Options can be preceded, followed, or interspaced with positional arguments. Options assembles all positional arguments together into a single, undifferentiated array of strings. Convenience functions are supplied for parsing these strings as integers or doubles.
+Command line options can be preceded, followed, or interspaced with positional arguments. The parser assembles all positional arguments together into a single, undifferentiated array of strings. Convenience functions are supplied for parsing these strings as integers or doubles.
 </p>
 <p>
-Options supports the standard <code>--</code> switch for turning off option-parsing. All arguments following a <code>--</code> will be treated as positional arguments, even if they begin with a single or double dash.
+The parser supports the standard <code>--</code> switch for turning off option-parsing. All arguments following a <code>--</code> will be treated as positional arguments, even if they begin with a single or double dash.
 </p>
 <h3 id="commands">
 Commands
 </h3>
 <p>
-Options supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic <code>--help</code> flag and an automatic <code>help &lt;cmd&gt;</code> command, i.e. the commands
+The Options library supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic <code>--help</code> flag and an automatic <code>help &lt;cmd&gt;</code> command, i.e. the commands
 </p>
 <pre>
 $ myapp &lt;cmd&gt; --help
