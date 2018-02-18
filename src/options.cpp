@@ -11,10 +11,10 @@
 
 using namespace std;
 
-using opt::ArgStream;
-using opt::OptionType;
-using opt::Option;
-using opt::ArgParser;
+using options::ArgStream;
+using options::OptionType;
+using options::Option;
+using options::ArgParser;
 
 
 // -----------------------------------------------------------------------------

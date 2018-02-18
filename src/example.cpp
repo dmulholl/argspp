@@ -12,7 +12,7 @@ using namespace std;
 // command is found. The function receives a reference to an ArgParser instance
 // containing the command's parsed arguments. Here we simply dump the parser
 // to stdout.
-void callback(opt::ArgParser& parser) {
+void callback(options::ArgParser& parser) {
     cout << "---------- callback ----------\n";
     parser.print();
     cout << "------------------------------\n\n";
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     // a version string. Supplying help text activates an automatic --help
     // flag, supplying a version string activates an automatic --version
     // flag. We can pass an empty string for either parameter.
-    opt::ArgParser parser("Help!", "1.2.3");
+    options::ArgParser parser("Help!", "1.2.3");
 
     // Register a flag, --bool, with a single-character alias, -b. A flag is a
     // boolean option - it's either present (true) or absent (false).
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 
     // Register a command 'foo'. We need to supply the command's help text and
     // callback function.
-    opt::ArgParser& cmd = parser.newCmd("foo", "Command!", callback);
+    options::ArgParser& cmd = parser.newCmd("foo", "Command!", callback);
 
     // Registering a command returns a new ArgParser instance dedicated to
     // parsing the command's arguments. We can register as many flags and

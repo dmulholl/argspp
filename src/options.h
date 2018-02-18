@@ -3,7 +3,7 @@
 //
 // Author: Darren Mulholland <darren@mulholland.xyz>
 // License: Public Domain
-// Version: 0.4.1
+// Version: 0.5.0
 // -----------------------------------------------------------------------------
 
 #pragma once
@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-namespace opt {
+namespace options {
 
     // Internal use.
     class ArgStream {
