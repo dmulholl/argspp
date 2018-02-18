@@ -67,7 +67,7 @@ To use Options in your C++ application add the <code>options.cpp</code> and <cod
 <span class="cp">#include</span> <span class="cpf">&quot;options.h&quot;</span><span class="cp"></span>
 </pre>
 <p>
-The header exports an <code>opt::ArgParser</code> class which provides the public interface to the library.
+The header exports an <code>options::ArgParser</code> class which provides the public interface to the library.
 </p>
 <p>
 Options is written in portable C++ 11.
@@ -79,7 +79,7 @@ Basic Usage
 Initialize an argument parser, optionally specifying the application's help text and version:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
-<span class="n">opt</span><span class="o">::</span><span class="n">ArgParser</span><span class="p">(</span><span class="n">string</span> <span class="n">helptext</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span> <span class="n">version</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">ArgParser</span><span class="p">(</span><span class="n">string</span> <span class="n">helptext</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span> <span class="n">version</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
 </pre>
 <p>
 Supplying help text activates an automatic <code>--help</code> flag; supplying a version string activates an automatic <code>--version</code> flag. (Automatic <code>-h</code> and <code>-v</code> shortcuts are also activated unless registered by other options.)
@@ -103,7 +103,7 @@ Register Options
 Options supports long-form options, <code>--foo</code>, with single-character shortcuts, <code>-f</code>.
 </p>
 <p>
-An option can have an unlimited number of long and short-form aliases. Aliases are specified via the <code>name</code> parameter which accepts a string of space-separated alternatives, e.g. <code>"foo f"</code>.
+An option can have an unlimited number of long and short-form aliases. Aliases are specified via the <code>name</code> parameter which accepts a string of space-separated alternatives, e.g. <code>&quot;foo f&quot;</code>.
 </p>
 <p>
 Option values can be separated on the command line by either a space, <code>--foo 123</code>, or an equals symbol, <code>--foo=123</code>.
@@ -134,7 +134,7 @@ Register an integer option, optionally specifying a default value.
 </p>
 </dd>
 <dt>
-<code>void ArgParser::newString(string name, string fallback = "")</code>
+<code>void ArgParser::newString(string name, string fallback = &quot;&quot;)</code>
 </dt>
 <dd>
 <p>

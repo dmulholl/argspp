@@ -12,7 +12,7 @@ To use Options in your C++ application add the `options.cpp` and `options.h` fil
 
     #include "options.h"
 
-The header exports an `opt::ArgParser` class which provides the public interface to the library.
+The header exports an `options::ArgParser` class which provides the public interface to the library.
 
 Options is written in portable C++ 11.
 
@@ -24,7 +24,7 @@ Initialize an argument parser, optionally specifying the application's help text
 
 ::: c++
 
-    opt::ArgParser(string helptext = "", string version = "")
+    ArgParser(string helptext = "", string version = "")
 
 Supplying help text activates an automatic `--help` flag; supplying a version string activates an automatic `--version` flag. (Automatic `-h` and `-v` shortcuts are also activated unless registered by other options.)
 
