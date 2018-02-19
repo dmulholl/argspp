@@ -1,6 +1,6 @@
 # Options
 
-Options is a minimalist argument-parsing library for C++.
+Options is a C++ library for parsing command line arguments.
 
 
 #### Features
