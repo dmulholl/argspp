@@ -25,5 +25,5 @@ Options is a C++ library for parsing command line arguments.
 * [Sample Application][sample]
 
 
-[docs]: https://mulholland.xyz/docs/options/
+[docs]: https://darrenmulholland.com/docs/options/
 [sample]: https://github.com/dmulholland/options/blob/master/src/example.cpp
