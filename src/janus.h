@@ -1,9 +1,9 @@
 // -----------------------------------------------------------------------------
-// Options: a minimalist argument-parsing library written in portable C++11.
+// Janus: an argument-parsing library written in portable C++11.
 //
 // Author: Darren Mulholland <darren@mulholland.xyz>
 // License: Public Domain
-// Version: 0.5.0
+// Version: 0.6.0
 // -----------------------------------------------------------------------------
 
 #pragma once
@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-namespace options {
+namespace janus {
 
     // Internal use.
     class ArgStream {

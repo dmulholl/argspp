@@ -1,6 +1,6 @@
-# Options
+# Janus
 
-Options is a C++ library for parsing command line arguments.
+A C++ library for parsing command line arguments.
 
 
 #### Features
@@ -25,5 +25,5 @@ Options is a C++ library for parsing command line arguments.
 * [Sample Application][sample]
 
 
-[docs]: https://darrenmulholland.com/docs/options/
-[sample]: https://github.com/dmulholland/options/blob/master/src/example.cpp
+[docs]: https://darrenmulholland.com/docs/janus-cpp/
+[sample]: https://github.com/dmulholland/janus-cpp/blob/master/src/example.cpp

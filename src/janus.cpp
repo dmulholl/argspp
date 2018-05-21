@@ -1,8 +1,8 @@
 // -----------------------------------------------------------------------------
-// Options: a minimalist argument-parsing library written in portable C++11.
+// Janus: an argument-parsing library written in portable C++11.
 // -----------------------------------------------------------------------------
 
-#include "options.h"
+#include "janus.h"
 
 #include <algorithm>
 #include <cctype>
@@ -11,10 +11,10 @@
 
 using namespace std;
 
-using options::ArgStream;
-using options::OptionType;
-using options::Option;
-using options::ArgParser;
+using janus::ArgStream;
+using janus::OptionType;
+using janus::Option;
+using janus::ArgParser;
 
 
 // -----------------------------------------------------------------------------

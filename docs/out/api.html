@@ -14,7 +14,7 @@
   <body class="node-api node">
 
     <header class="masthead">
-      <h1><a href="index.html">Options</a></h1>
+      <h1><a href="index.html">Janus</a></h1>
       
         <p class="tagline">An argument-parsing library for C++.</p>
       
@@ -62,16 +62,16 @@
 </ul>
 <hr>
 <p>
-To use Options in your C++ application add the <code>options.cpp</code> and <code>options.h</code> files to your source folder and include the header file:
+To use Janus in your C++ application add the <code>janus.cpp</code> and <code>janus.h</code> files to your source folder and include the header file:
 </p>
-<pre class="lang-c pygments" data-lang="c">
-<span class="cp">#include</span> <span class="cpf">&quot;options.h&quot;</span><span class="cp"></span>
+<pre class="lang-c++ pygments" data-lang="c++">
+<span class="cp">#include</span> <span class="cpf">&quot;janus.h&quot;</span><span class="cp"></span>
 </pre>
 <p>
-The header exports an <code>options::ArgParser</code> class which provides the public interface to the library.
+The header exports a <code>janus::ArgParser</code> class which provides the public interface to the library.
 </p>
 <p>
-Options is written in portable C++ 11.
+Janus is written in portable C++ 11.
 </p>
 <h2 id="basic-usage">
 Basic Usage
@@ -101,7 +101,7 @@ Parsed option values can be retrieved from the parser instance itself.
 Register Options
 </h2>
 <p>
-Options supports long-form options, <code>--foo</code>, with single-character shortcuts, <code>-f</code>.
+Janus supports long-form options, <code>--foo</code>, with single-character shortcuts, <code>-f</code>.
 </p>
 <p>
 An option can have an unlimited number of long and short-form aliases. Aliases are specified via the <code>name</code> parameter which accepts a string of space-separated alternatives, e.g. <code>&quot;foo f&quot;</code>.
@@ -296,7 +296,7 @@ Returns the number of positional arguments.
 Commands
 </h2>
 <p>
-Options supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the <code>newCmd()</code> method:
+Janus supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the <code>newCmd()</code> method:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
 <span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">ArgParser</span><span class="o">::</span><span class="n">newCmd</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="n">string</span> <span class="n">helptext</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">callback</span><span class="p">)(</span><span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">parser</span><span class="p">))</span>

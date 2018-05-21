@@ -6,15 +6,15 @@ title: API
 
 ---
 
-To use Options in your C++ application add the `options.cpp` and `options.h` files to your source folder and include the header file:
+To use Janus in your C++ application add the `janus.cpp` and `janus.h` files to your source folder and include the header file:
 
-::: c
+::: c++
 
-    #include "options.h"
+    #include "janus.h"
 
-The header exports an `options::ArgParser` class which provides the public interface to the library.
+The header exports a `janus::ArgParser` class which provides the public interface to the library.
 
-Options is written in portable C++ 11.
+Janus is written in portable C++ 11.
 
 
 
@@ -42,7 +42,7 @@ Parsed option values can be retrieved from the parser instance itself.
 
 ## Register Options
 
-Options supports long-form options, `--foo`, with single-character shortcuts, `-f`.
+Janus supports long-form options, `--foo`, with single-character shortcuts, `-f`.
 
 An option can have an unlimited number of long and short-form aliases. Aliases are specified via the `name` parameter which accepts a string of space-separated alternatives, e.g. `"foo f"`.
 
@@ -169,7 +169,7 @@ Options can be preceded, followed, or interspaced with positional arguments.
 
 ## Commands
 
-Options supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the `newCmd()` method:
+Janus supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the `newCmd()` method:
 
 ::: c++
 

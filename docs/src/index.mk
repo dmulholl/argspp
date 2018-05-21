@@ -1,11 +1,11 @@
 ---
 title: Home
-meta title: Options &mdash; an argument-parsing library for C++
+meta title: Janus &mdash; an argument-parsing library for C++
 meta description: >
-    Options is a minimalist argument-parsing library designed for building elegant command-line interfaces.
+    Janus is an argument-parsing library designed for building elegant command-line interfaces.
 ---
 
-Options is an argument-parsing library designed for building elegant command-line interfaces.
+Janus is an argument-parsing library designed for building elegant command-line interfaces.
 
 
 
@@ -30,12 +30,10 @@ Options is an argument-parsing library designed for building elegant command-lin
 
 * [Github Homepage][github]
 * [Sample Application][sample]
-* [Online Documentation][docs]
 
 
-[github]: https://github.com/dmulholland/options
-[docs]: https://darrenmulholland.com/docs/options/
-[sample]: https://github.com/dmulholland/options/blob/master/src/example.cpp
+[github]: https://github.com/dmulholland/janus-cpp
+[sample]: https://github.com/dmulholland/janus-cpp/blob/master/src/example.cpp
 
 
 
