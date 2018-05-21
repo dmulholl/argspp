@@ -34,7 +34,7 @@ Options is an argument-parsing library designed for building elegant command-lin
 
 
 [github]: https://github.com/dmulholland/options
-[docs]: http://mulholland.xyz/docs/options/
+[docs]: https://darrenmulholland.com/docs/options/
 [sample]: https://github.com/dmulholland/options/blob/master/src/example.cpp
 
 
