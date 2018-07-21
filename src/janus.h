@@ -3,10 +3,11 @@
 //
 // Author: Darren Mulholland <darren@mulholland.xyz>
 // License: Public Domain
-// Version: 0.6.0
+// Version: 0.6.1
 // -----------------------------------------------------------------------------
 
-#pragma once
+#ifndef janus_h
+#define janus_h
 
 #include <deque>
 #include <map>
@@ -143,3 +144,5 @@ namespace janus {
             );
     };
 }
+
+#endif
