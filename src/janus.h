@@ -1,9 +1,9 @@
 // -----------------------------------------------------------------------------
 // Janus: an argument-parsing library written in portable C++11.
 //
-// Author: Darren Mulholland <darren@mulholland.xyz>
+// Author: Darren Mulholland <dmulholl@tcd.ie>
 // License: Public Domain
-// Version: 0.6.1
+// Version: 0.7.0
 // -----------------------------------------------------------------------------
 
 #ifndef janus_h
@@ -16,42 +16,11 @@
 
 namespace janus {
 
-    // Internal use.
-    class ArgStream {
-        public:
-            void append(std::string const& arg);
-            std::string next();
-            bool hasNext();
-        private:
-            std::deque<std::string> args;
-    };
+    // Forward declarations.
+    class ArgStream;
+    class Option;
 
-    // Internal use.
-    enum class OptionType {
-        Flag, String, Int, Double
-    };
-
-    // Internal use.
-    class Option {
-        public:
-            OptionType type;
-            std::vector<bool> bools;
-            std::vector<std::string> strings;
-            std::vector<int> ints;
-            std::vector<double> doubles;
-            bool fb_bool = false;
-            std::string fb_string;
-            int fb_int = 0;
-            double fb_double = 0.0;
-            bool found = false;
-
-            Option(OptionType type)
-                : type(type) {}
-
-            void trySetValue(std::string const& value);
-    };
-
-    // ArgParser provides the external interface to the library.
+    // ArgParser provides the public interface to the library.
     class ArgParser {
         public:
 
@@ -77,7 +46,6 @@ namespace janus {
 
             // Parse command line arguments.
             void parse(int argc, char **argv);
-            void parse(ArgStream& args);
 
             // Returns true if the named option was found while parsing.
             bool found(std::string const& name);
@@ -134,6 +102,7 @@ namespace janus {
             ArgParser *parent = nullptr;
             void (*callback)(ArgParser& parser);
 
+            void parse(ArgStream& args);
             void registerOption(std::string const& name, Option* option);
             void parseLongOption(std::string arg, ArgStream& stream);
             void parseShortOption(std::string arg, ArgStream& stream);

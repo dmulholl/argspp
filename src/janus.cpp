@@ -10,11 +10,7 @@
 #include <sstream>
 
 using namespace std;
-
-using janus::ArgStream;
-using janus::OptionType;
-using janus::Option;
-using janus::ArgParser;
+using namespace janus;
 
 
 // -----------------------------------------------------------------------------
@@ -54,6 +50,33 @@ static double tryStringToDouble(string const& arg) {
 // -----------------------------------------------------------------------------
 
 
+namespace janus {
+    enum class OptionType {
+        Flag, String, Int, Double
+    };
+}
+
+
+class janus::Option {
+    public:
+        OptionType type;
+        std::vector<bool> bools;
+        std::vector<std::string> strings;
+        std::vector<int> ints;
+        std::vector<double> doubles;
+        bool fb_bool = false;
+        std::string fb_string;
+        int fb_int = 0;
+        double fb_double = 0.0;
+        bool found = false;
+
+        Option(OptionType type)
+            : type(type) {}
+
+        void trySetValue(std::string const& value);
+};
+
+
 void Option::trySetValue(string const& value) {
     switch (this->type) {
         case OptionType::String:
@@ -75,6 +98,16 @@ void Option::trySetValue(string const& value) {
 // -----------------------------------------------------------------------------
 // ArgStream.
 // -----------------------------------------------------------------------------
+
+
+class janus::ArgStream {
+    public:
+        void append(std::string const& arg);
+        std::string next();
+        bool hasNext();
+    private:
+        std::deque<std::string> args;
+};
 
 
 void ArgStream::append(string const& arg) {
