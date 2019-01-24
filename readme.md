@@ -1,5 +1,4 @@
-
-# Janus: an argument parsing library for C++
+# Janus: argument parsing for C++
 
 A C++ library for parsing command line arguments.
 
