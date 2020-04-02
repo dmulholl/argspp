@@ -32,8 +32,8 @@ Janus is an argument-parsing library designed for building elegant command-line 
 * [Sample Application][sample]
 
 
-[github]: https://github.com/dmulholland/janus-cpp
-[sample]: https://github.com/dmulholland/janus-cpp/blob/master/src/example.cpp
+[github]: https://github.com/dmulholl/janus-cpp
+[sample]: https://github.com/dmulholl/janus-cpp/blob/master/src/example.cpp
 
 
 
