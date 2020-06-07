@@ -164,11 +164,21 @@ Each option maintains an internal array of values — the value of the option is
 <dl>
 <div>
 <dt>
+<code>int ArgParser::count(string name)</code>
+</dt>
+<dd>
+<p>
+Returns the number of times the specified option was found.
+</p>
+</dd>
+</div>
+<div>
+<dt>
 <code>bool ArgParser::found(string name)</code>
 </dt>
 <dd>
 <p>
-Returns true if the specified option was found while parsing.
+Returns true if the specified option was found.
 </p>
 </dd>
 </div>
@@ -247,16 +257,6 @@ Returns the specified option's list of values.
 <dd>
 <p>
 Returns the specified option's list of values.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>int ArgParser::lenList(string name)</code>
-</dt>
-<dd>
-<p>
-Returns the length of the specified option's list of values.
 </p>
 </dd>
 </div>
@@ -415,7 +415,6 @@ Returns true if the parser has a parent, i.e. is not the root parser.
 </dd>
 </div>
 </dl>
-
     </article>
 
     

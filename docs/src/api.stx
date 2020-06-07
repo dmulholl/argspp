@@ -8,7 +8,6 @@ title: API
 To use Janus in your C++ application add the `janus.cpp` and `janus.h` files to your source folder and include the header file:
 
 ::: code c++
-
     #include "janus.h"
 
 The header exports a `janus::ArgParser` class which provides the public interface to the library.
@@ -22,7 +21,6 @@ Janus is written in portable C++ 11.
 Initialize an argument parser, optionally specifying the application's help text and version:
 
 ::: code c++
-
     ArgParser(string helptext = "", string version = "")
 
 Supplying help text activates an automatic `--help` flag; supplying a version string activates an automatic `--version` flag. (Automatic `-h` and `-v` shortcuts are also activated unless registered by other options.)
@@ -30,7 +28,6 @@ Supplying help text activates an automatic `--help` flag; supplying a version st
 You can now register your application's options and commands on the parser using the registration functions described below. Once the required options and commands have been registered, call the parser's `parse()` method to process the application's command line arguments:
 
 ::: code c++
-
     void ArgParser::parse(int argc, char **argv)
 
 The arguments are assumed to be `argc` and `argv` as supplied to `main()`.
@@ -76,9 +73,14 @@ An option's value can be retrieved from the parser instance using any of its reg
 Each option maintains an internal array of values — the value of the option is the final value in the array or the fallback value if the array is empty.
 
 
+[[  `int ArgParser::count(string name)`  ]]
+
+    Returns the number of times the specified option was found.
+
+
 [[  `bool ArgParser::found(string name)`  ]]
 
-    Returns true if the specified option was found while parsing.
+    Returns true if the specified option was found.
 
 
 [[  `bool ArgParser::getFlag(string name)`  ]]
@@ -120,11 +122,6 @@ An option's internal array of values can be retrieved from the parser instance u
 [[  `vector<string> ArgParser::getStringList(string name)`  ]]
 
     Returns the specified option's list of values.
-
-
-[[  `int ArgParser::lenList(string name)`  ]]
-
-    Returns the length of the specified option's list of values.
 
 
 
@@ -171,7 +168,6 @@ Options can be preceded, followed, or interspaced with positional arguments.
 Janus supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the `newCmd()` method:
 
 ::: code c++
-
     ArgParser& ArgParser::newCmd(string name, string helptext, void (*callback)(ArgParser& parser))
 
 This method returns a reference to a new `ArgParser` instance associated with the command. You can register the command's flags and options on this sub-parser using the standard methods listed above. (Note that you never need to call `parse()` on a command parser --- if a command is found, its arguments are parsed automatically.)
