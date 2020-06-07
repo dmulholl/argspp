@@ -209,7 +209,7 @@ double ArgParser::getDouble(string const& name) {
 }
 
 
-int ArgParser::lenList(string const& name) {
+int ArgParser::count(string const& name) {
     switch (options[name]->type) {
         case OptionType::Flag:
             return options[name]->bools.size();
@@ -220,6 +220,11 @@ int ArgParser::lenList(string const& name) {
         case OptionType::Double:
             return options[name]->doubles.size();
     }
+}
+
+
+int ArgParser::lenList(string const& name) {
+    return count(name);
 }
 
 

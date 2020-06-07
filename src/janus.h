@@ -3,7 +3,7 @@
 //
 // Author: Darren Mulholland <dmulholl@tcd.ie>
 // License: Public Domain
-// Version: 0.7.0
+// Version: 0.8.0
 // -----------------------------------------------------------------------------
 
 #ifndef janus_h
@@ -47,8 +47,11 @@ namespace janus {
             // Parse command line arguments.
             void parse(int argc, char **argv);
 
-            // Returns true if the named option was found while parsing.
+            // Returns true if the named option was foundg.
             bool found(std::string const& name);
+
+            // Returns the number of times the named option was found.
+            int count(std::string const& name);
 
             // Retrieve option values.
             double getDouble(std::string const& name);
@@ -56,7 +59,7 @@ namespace janus {
             int getInt(std::string const& name);
             std::string getString(std::string const& name);
 
-            // Returns the length of the named option's list of values.
+            // Deprecated: replaced by count().
             int lenList(std::string const& name);
 
             // Retrieve list option values.
