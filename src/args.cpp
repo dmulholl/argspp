@@ -8,6 +8,7 @@
 #include <cctype>
 #include <iostream>
 #include <sstream>
+#include <deque>
 
 using namespace std;
 using namespace args;

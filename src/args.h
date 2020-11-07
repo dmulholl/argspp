@@ -9,7 +9,6 @@
 #ifndef args_h
 #define args_h
 
-#include <deque>
 #include <map>
 #include <string>
 #include <vector>
