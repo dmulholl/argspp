@@ -58,9 +58,6 @@ namespace args {
             int getInt(std::string const& name);
             std::string getString(std::string const& name);
 
-            // Deprecated: replaced by count().
-            int lenList(std::string const& name);
-
             // Retrieve list option values.
             std::vector<double> getDoubleList(std::string const& name);
             std::vector<int> getIntList(std::string const& name);

@@ -224,11 +224,6 @@ int ArgParser::count(string const& name) {
 }
 
 
-int ArgParser::lenList(string const& name) {
-    return count(name);
-}
-
-
 vector<string> ArgParser::getStringList(string const& name) {
     return options[name]->strings;
 }
