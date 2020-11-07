@@ -1,8 +1,8 @@
 // -----------------------------------------------------------------------------
-// Janus: an argument-parsing library written in portable C++11.
+// Args++: an argument-parsing library in portable C++11.
 // -----------------------------------------------------------------------------
 
-#include "janus.h"
+#include "args.h"
 
 #include <algorithm>
 #include <cctype>
@@ -10,7 +10,7 @@
 #include <sstream>
 
 using namespace std;
-using namespace janus;
+using namespace args;
 
 
 // -----------------------------------------------------------------------------
@@ -50,14 +50,14 @@ static double tryStringToDouble(string const& arg) {
 // -----------------------------------------------------------------------------
 
 
-namespace janus {
+namespace args {
     enum class OptionType {
         Flag, String, Int, Double
     };
 }
 
 
-class janus::Option {
+class args::Option {
     public:
         OptionType type;
         std::vector<bool> bools;
@@ -100,7 +100,7 @@ void Option::trySetValue(string const& value) {
 // -----------------------------------------------------------------------------
 
 
-class janus::ArgStream {
+class args::ArgStream {
     public:
         void append(std::string const& arg);
         std::string next();

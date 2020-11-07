@@ -4,7 +4,7 @@ title: Command Line Interface
 
 #### Options
 
-Janus supports four kinds of options: boolean, string, integer, and floating-point.
+Args++ supports four kinds of options: boolean, string, integer, and floating-point.
 
 (*) Boolean options take no arguments but are either present (*true*) or absent (*false*).
 
@@ -42,7 +42,7 @@ The parser supports the standard `--` switch for turning off option-parsing. All
 
 ### Commands
 
-Janus supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic `--help` flag and an automatic `help <cmd>` command, i.e. the commands
+Args++ supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic `--help` flag and an automatic `help <cmd>` command, i.e. the commands
 
     $ myapp <cmd> --help
 

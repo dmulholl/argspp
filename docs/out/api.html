@@ -1,47 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>API</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="fonts.css">
-    <link rel="stylesheet" href="graphite.css">
-    <link rel="stylesheet" href="pygments.css">
-    
-    
-  </head>
-
-  <body class="node-api node">
-
-    <header class="masthead">
-      <h1><a href="index.html">Janus</a></h1>
-      
-        <p class="tagline">An argument-parsing library for C++.</p>
-      
-      
-      <nav class="menu">
-        <input id="menu-check" type="checkbox"/>
-        <label id="menu-label" for="menu-check" class="unselectable">
-          <span class="icon close-icon">✕</span>
-          <span class="icon open-icon">☰</span>
-          <span class="text">Menu</span>
-        </label>
-        <ul>
+    <head>
+        <meta charset="utf-8">
+        <title>API Reference</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="assets/fonts.css">
+        <link rel="stylesheet" href="assets/graphite.css">
+        <link rel="stylesheet" href="assets/pygments.css">
+        
+        
+    </head>
+    <body class="node-api node">
+        <header class="masthead">
+            <h1><a href="index.html">Args++</a></h1>
+            
+            <p class="tagline">An argument-parsing library for C++.</p>
+            
+            
+            <nav class="menu">
+                <input id="menu-check" type="checkbox"/>
+                <label id="menu-label" for="menu-check" class="unselectable">
+                    <span class="icon close-icon">✕</span>
+                    <span class="icon open-icon">☰</span>
+                    <span class="text">Menu</span>
+                </label>
+                <ul>
 <li><a href="index.html">Home</a></li>
 <li><a href="cli.html">CLI</a></li>
 <li><a href="api.html">API</a></li>
-<li><a href="https://github.com/dmulholl/janus-cpp">Source</a></li>
+<li><a href="https://github.com/dmulholl/argspp">Github</a></li>
 </ul>
-      </nav>
-    </header>
-
-    <article class="main">
-      <header class="title">
-        <h1>API</h1>
-        
-        <hr>
-      </header>
-      <ul class="stx-toc">
+            </nav>
+        </header>
+        <article class="main">
+            <header class="title">
+                <h1>API Reference</h1>
+                
+                <hr>
+            </header>
+            <ul class="stx-toc">
 <li>
 <a href="#basic-usage">Basic Usage</a>
 </li>
@@ -63,16 +60,8 @@
 </ul>
 <hr>
 <p>
-To use Janus in your C++ application add the <code>janus.cpp</code> and <code>janus.h</code> files to your source folder and include the header file:
-</p>
-<pre class="lang-c++ pygments" data-lang="c++">
-<span class="cp">#include</span> <span class="cpf">&quot;janus.h&quot;</span><span class="cp"></span>
-</pre>
-<p>
-The header exports a <code>janus::ArgParser</code> class which provides the public interface to the library.
-</p>
-<p>
-Janus is written in portable C++ 11.
+This library is written in portable C++11.
+The header file exports an <code>args::ArgParser</code> class which provides the public interface to the library.
 </p>
 <h2 id="basic-usage">
 Basic Usage
@@ -102,7 +91,7 @@ Parsed option values can be retrieved from the parser instance itself.
 Register Options
 </h2>
 <p>
-Janus supports long-form options, <code>--foo</code>, with single-character shortcuts, <code>-f</code>.
+Args++ supports long-form options, <code>--foo</code>, with single-character shortcuts, <code>-f</code>.
 </p>
 <p>
 An option can have an unlimited number of long and short-form aliases. Aliases are specified via the <code>name</code> parameter which accepts a string of space-separated alternatives, e.g. <code>&quot;foo f&quot;</code>.
@@ -335,7 +324,7 @@ Returns the number of positional arguments.
 Commands
 </h2>
 <p>
-Janus supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the <code>newCmd()</code> method:
+Args++ supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the <code>newCmd()</code> method:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
 <span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">ArgParser</span><span class="o">::</span><span class="n">newCmd</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="n">string</span> <span class="n">helptext</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">callback</span><span class="p">)(</span><span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">parser</span><span class="p">))</span>
@@ -415,9 +404,7 @@ Returns true if the parser has a parent, i.e. is not the root parser.
 </dd>
 </div>
 </dl>
-    </article>
-
-    
-
-  </body>
+        </article>
+        
+    </body>
 </html>

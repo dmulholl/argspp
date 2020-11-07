@@ -1,20 +1,20 @@
 // -----------------------------------------------------------------------------
-// Janus: an argument-parsing library written in portable C++11.
+// Args++: an argument-parsing library in portable C++11.
 //
 // Author: Darren Mulholland <dmulholl@tcd.ie>
 // License: Public Domain
-// Version: 0.8.0
+// Version: 0.9.0
 // -----------------------------------------------------------------------------
 
-#ifndef janus_h
-#define janus_h
+#ifndef args_h
+#define args_h
 
 #include <deque>
 #include <map>
 #include <string>
 #include <vector>
 
-namespace janus {
+namespace args {
 
     // Forward declarations.
     class ArgStream;

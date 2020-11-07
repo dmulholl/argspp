@@ -1,51 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Command Line Interface</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="fonts.css">
-    <link rel="stylesheet" href="graphite.css">
-    <link rel="stylesheet" href="pygments.css">
-    
-    
-  </head>
-
-  <body class="node-cli node">
-
-    <header class="masthead">
-      <h1><a href="index.html">Janus</a></h1>
-      
-        <p class="tagline">An argument-parsing library for C++.</p>
-      
-      
-      <nav class="menu">
-        <input id="menu-check" type="checkbox"/>
-        <label id="menu-label" for="menu-check" class="unselectable">
-          <span class="icon close-icon">✕</span>
-          <span class="icon open-icon">☰</span>
-          <span class="text">Menu</span>
-        </label>
-        <ul>
+    <head>
+        <meta charset="utf-8">
+        <title>Command Line Interface</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="assets/fonts.css">
+        <link rel="stylesheet" href="assets/graphite.css">
+        <link rel="stylesheet" href="assets/pygments.css">
+        
+        
+    </head>
+    <body class="node-cli node">
+        <header class="masthead">
+            <h1><a href="index.html">Args++</a></h1>
+            
+            <p class="tagline">An argument-parsing library for C++.</p>
+            
+            
+            <nav class="menu">
+                <input id="menu-check" type="checkbox"/>
+                <label id="menu-label" for="menu-check" class="unselectable">
+                    <span class="icon close-icon">✕</span>
+                    <span class="icon open-icon">☰</span>
+                    <span class="text">Menu</span>
+                </label>
+                <ul>
 <li><a href="index.html">Home</a></li>
 <li><a href="cli.html">CLI</a></li>
 <li><a href="api.html">API</a></li>
-<li><a href="https://github.com/dmulholl/janus-cpp">Source</a></li>
+<li><a href="https://github.com/dmulholl/argspp">Github</a></li>
 </ul>
-      </nav>
-    </header>
-
-    <article class="main">
-      <header class="title">
-        <h1>Command Line Interface</h1>
-        
-        <hr>
-      </header>
-      <h4 id="options">
+            </nav>
+        </header>
+        <article class="main">
+            <header class="title">
+                <h1>Command Line Interface</h1>
+                
+                <hr>
+            </header>
+            <h4 id="options">
 Options
 </h4>
 <p>
-Janus supports four kinds of options: boolean, string, integer, and floating-point.
+Args++ supports four kinds of options: boolean, string, integer, and floating-point.
 </p>
 <ul>
 <li>
@@ -99,7 +96,7 @@ The parser supports the standard <code>--</code> switch for turning off option-p
 Commands
 </h3>
 <p>
-Janus supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic <code>--help</code> flag and an automatic <code>help &lt;cmd&gt;</code> command, i.e. the commands
+Args++ supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic <code>--help</code> flag and an automatic <code>help &lt;cmd&gt;</code> command, i.e. the commands
 </p>
 <pre>
 $ myapp &lt;cmd&gt; --help
@@ -113,9 +110,7 @@ $ myapp help &lt;cmd&gt;
 <p>
 are functionally identical and will both print the help text registered with the command.
 </p>
-    </article>
-
-    
-
-  </body>
+        </article>
+        
+    </body>
 </html>

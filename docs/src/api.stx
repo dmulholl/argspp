@@ -1,18 +1,12 @@
 ---
-title: API
+title: API Reference
 ---
 
 ::: insert toc
 ::: hr
 
-To use Janus in your C++ application add the `janus.cpp` and `janus.h` files to your source folder and include the header file:
-
-::: code c++
-    #include "janus.h"
-
-The header exports a `janus::ArgParser` class which provides the public interface to the library.
-
-Janus is written in portable C++ 11.
+This library is written in portable C++11.
+The header file exports an `args::ArgParser` class which provides the public interface to the library.
 
 
 
@@ -38,7 +32,7 @@ Parsed option values can be retrieved from the parser instance itself.
 
 ## Register Options
 
-Janus supports long-form options, `--foo`, with single-character shortcuts, `-f`.
+Args++ supports long-form options, `--foo`, with single-character shortcuts, `-f`.
 
 An option can have an unlimited number of long and short-form aliases. Aliases are specified via the `name` parameter which accepts a string of space-separated alternatives, e.g. `"foo f"`.
 
@@ -165,7 +159,7 @@ Options can be preceded, followed, or interspaced with positional arguments.
 
 ## Commands
 
-Janus supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the `newCmd()` method:
+Args++ supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the `newCmd()` method:
 
 ::: code c++
     ArgParser& ArgParser::newCmd(string name, string helptext, void (*callback)(ArgParser& parser))
