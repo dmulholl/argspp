@@ -1,9 +1,8 @@
 // -----------------------------------------------------------------------------
 // Args++: an argument-parsing library in portable C++11.
 //
-// Author: Darren Mulholland <dmulholl@tcd.ie>
 // License: Public Domain
-// Version: 0.9.0
+// Version: 1.0.0
 // -----------------------------------------------------------------------------
 
 #ifndef args_h

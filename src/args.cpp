@@ -492,13 +492,15 @@ void ArgParser::parse(ArgStream& stream) {
         }
 
         // Is the argument a registered command?
-        auto element = commands.find(arg);
-        if (element != commands.end()) {
-            ArgParser *cmdparser = element->second;
-            this->command = arg;
-            cmdparser->parse(stream);
-            cmdparser->callback(*cmdparser);
-            continue;
+        if (is_first_arg) {
+            auto element = commands.find(arg);
+            if (element != commands.end()) {
+                ArgParser *cmdparser = element->second;
+                this->command = arg;
+                cmdparser->parse(stream);
+                cmdparser->callback(*cmdparser);
+                continue;
+            }
         }
 
         // Is the argument the automatic 'help' command?
