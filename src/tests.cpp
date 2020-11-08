@@ -8,13 +8,14 @@
 #include "args.h"
 
 using namespace std;
+using namespace args;
 
 // -----------------------------------------------------------------------------
 // 1. Flags.
 // -----------------------------------------------------------------------------
 
-void test_flag_empty() {
-    args::ArgParser parser;
+void test_flag_empty_input() {
+    ArgParser parser;
     parser.flag("foo f");
     parser.parse(vector<string>());
     assert(parser.found("foo") == false);
@@ -22,8 +23,8 @@ void test_flag_empty() {
     printf(".");
 }
 
-void test_flag_missing() {
-    args::ArgParser parser;
+void test_flag_not_found() {
+    ArgParser parser;
     parser.flag("foo f");
     parser.parse(vector<string>({"abc", "def"}));
     assert(parser.found("foo") == false);
@@ -32,7 +33,7 @@ void test_flag_missing() {
 }
 
 void test_flag_long() {
-    args::ArgParser parser;
+    ArgParser parser;
     parser.flag("foo f");
     parser.parse(vector<string>({"--foo"}));
     assert(parser.found("foo") == true);
@@ -41,7 +42,7 @@ void test_flag_long() {
 }
 
 void test_flag_short() {
-    args::ArgParser parser;
+    ArgParser parser;
     parser.flag("foo f");
     parser.parse(vector<string>({"-f"}));
     assert(parser.found("foo") == true);
@@ -50,7 +51,7 @@ void test_flag_short() {
 }
 
 void test_flag_condensed() {
-    args::ArgParser parser;
+    ArgParser parser;
     parser.flag("foo f");
     parser.parse(vector<string>({"-fff"}));
     assert(parser.found("foo") == true);
@@ -59,7 +60,7 @@ void test_flag_condensed() {
 }
 
 void test_flag_multi() {
-    args::ArgParser parser;
+    ArgParser parser;
     parser.flag("foo f");
     parser.parse(vector<string>({"-fff", "--foo", "-f"}));
     assert(parser.found("foo") == true);
@@ -71,8 +72,8 @@ void test_flag_multi() {
 // 2. Options.
 // -----------------------------------------------------------------------------
 
-void test_opt_default() {
-    args::ArgParser parser;
+void test_option_not_found() {
+    ArgParser parser;
     parser.option("foo f", "default");
     parser.parse(vector<string>({"abc", "def"}));
     assert(parser.found("foo") == false);
@@ -81,8 +82,8 @@ void test_opt_default() {
     printf(".");
 }
 
-void test_opt_long() {
-    args::ArgParser parser;
+void test_option_long() {
+    ArgParser parser;
     parser.option("foo f", "default");
     parser.parse(vector<string>({"--foo", "bar"}));
     assert(parser.found("foo") == true);
@@ -91,8 +92,8 @@ void test_opt_long() {
     printf(".");
 }
 
-void test_opt_short() {
-    args::ArgParser parser;
+void test_option_short() {
+    ArgParser parser;
     parser.option("foo f", "default");
     parser.parse(vector<string>({"-f", "bar"}));
     assert(parser.found("foo") == true);
@@ -101,8 +102,8 @@ void test_opt_short() {
     printf(".");
 }
 
-void test_opt_condensed() {
-    args::ArgParser parser;
+void test_option_condensed() {
+    ArgParser parser;
     parser.option("foo f", "default");
     parser.parse(vector<string>({"-ff", "bar", "baz"}));
     assert(parser.found("foo") == true);
@@ -111,8 +112,8 @@ void test_opt_condensed() {
     printf(".");
 }
 
-void test_opt_multi() {
-    args::ArgParser parser;
+void test_option_multi() {
+    ArgParser parser;
     parser.option("foo f", "default");
     parser.parse(vector<string>({"-ff", "bar", "baz", "--foo", "bam"}));
     assert(parser.found("foo") == true);
@@ -126,7 +127,7 @@ void test_opt_multi() {
 // -----------------------------------------------------------------------------
 
 void test_pos_args() {
-    args::ArgParser parser;
+    ArgParser parser;
     parser.parse(vector<string>({"abc", "def"}));
     assert(parser.args.size() == 2);
     assert(parser.args[0] == "abc");
@@ -139,7 +140,7 @@ void test_pos_args() {
 // -----------------------------------------------------------------------------
 
 void test_option_parsing_switch() {
-    args::ArgParser parser;
+    ArgParser parser;
     parser.parse(vector<string>({"foo", "--", "--bar", "--baz"}));
     assert(parser.args.size() == 3);
     printf(".");
@@ -150,8 +151,8 @@ void test_option_parsing_switch() {
 // -----------------------------------------------------------------------------
 
 void test_command() {
-    args::ArgParser parser;
-    args::ArgParser& cmd_parser = parser.command("boo");
+    ArgParser parser;
+    ArgParser& cmd_parser = parser.command("boo");
     cmd_parser.flag("foo");
     cmd_parser.option("bar", "default");
     parser.parse(vector<string>({"boo", "abc", "def", "--foo", "--bar", "baz"}));
@@ -179,19 +180,19 @@ int main() {
     line();
 
     printf("Tests: 1 ");
-    test_flag_empty();
-    test_flag_missing();
+    test_flag_empty_input();
+    test_flag_not_found();
     test_flag_long();
     test_flag_short();
     test_flag_condensed();
     test_flag_multi();
 
     printf(" 2 ");
-    test_opt_default();
-    test_opt_long();
-    test_opt_short();
-    test_opt_condensed();
-    test_opt_multi();
+    test_option_not_found();
+    test_option_long();
+    test_option_short();
+    test_option_condensed();
+    test_option_multi();
 
     printf(" 3 ");
     test_pos_args();
