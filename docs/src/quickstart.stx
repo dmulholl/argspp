@@ -20,8 +20,8 @@ Supplying a helptext string for the parser activates an automatic `--help/-h` fl
 Now we can register our options and flags:
 
 ::: code c++
-    parser.flag("quiet q");
     parser.option("out o", "default.mp3");
+    parser.flag("quiet q");
 
 That's it, we're done specifying our interface. Now we can parse the program's command line arguments, passing in `argc` and `argv` as supplied to `main()`:
 

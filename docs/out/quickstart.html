@@ -64,8 +64,8 @@ Supplying a helptext string for the parser activates an automatic <code>--help/-
 Now we can register our options and flags:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
-<span class="n">parser</span><span class="p">.</span><span class="n">flag</span><span class="p">(</span><span class="s">&quot;quiet q&quot;</span><span class="p">);</span>
 <span class="n">parser</span><span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">&quot;out o&quot;</span><span class="p">,</span> <span class="s">&quot;default.mp3&quot;</span><span class="p">);</span>
+<span class="n">parser</span><span class="p">.</span><span class="n">flag</span><span class="p">(</span><span class="s">&quot;quiet q&quot;</span><span class="p">);</span>
 </pre>
 <p>
 That's it, we're done specifying our interface. Now we can parse the program's command line arguments, passing in <code>argc</code> and <code>argv</code> as supplied to <code>main()</code>:
