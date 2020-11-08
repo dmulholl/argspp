@@ -44,6 +44,7 @@ namespace args {
 
             // Parse the application's command line arguments.
             void parse(int argc, char **argv);
+            void parse(std::vector<std::string> args);
 
             // Retrieve flag and option values.
             bool found(std::string const& name);

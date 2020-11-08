@@ -356,6 +356,16 @@ void ArgParser::parse(int argc, char **argv) {
 }
 
 
+// Parse a vector of string arguments.
+void ArgParser::parse(vector<string> args) {
+    ArgStream stream;
+    for (string& arg: args) {
+        stream.append(arg);
+    }
+    parse(stream);
+}
+
+
 // -----------------------------------------------------------------------------
 // ArgParser: utilities.
 // -----------------------------------------------------------------------------
