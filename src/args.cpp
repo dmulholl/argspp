@@ -9,91 +9,26 @@
 #include <iostream>
 #include <sstream>
 #include <deque>
+#include <set>
 
 using namespace std;
 using namespace args;
 
 
 // -----------------------------------------------------------------------------
-// String parsing utilities.
+// Flags and Options.
 // -----------------------------------------------------------------------------
 
 
-static int tryStringToInt(string const& arg) {
-    try {
-        return stoi(arg);
-    } catch (invalid_argument) {
-        cerr << "Error: cannot parse '" << arg << "' as an integer.\n";
-        exit(1);
-    } catch (out_of_range) {
-        cerr << "Error: " << arg << " is out of range.\n";
-        exit(1);
-    }
-}
-
-
-static double tryStringToDouble(string const& arg) {
-    try {
-        return stod(arg);
-    } catch (invalid_argument) {
-        cerr << "Error: cannot parse '" << arg << "' ";
-        cerr << "as a floating-point value.\n";
-        exit(1);
-    } catch (out_of_range) {
-        cerr << "Error: " << arg << " is out of range.\n";
-        exit(1);
-    }
-}
-
-
-// -----------------------------------------------------------------------------
-// Options.
-// -----------------------------------------------------------------------------
-
-
-namespace args {
-    enum class OptionType {
-        Flag, String, Int, Double
-    };
-}
-
-
-class args::Option {
-    public:
-        OptionType type;
-        std::vector<bool> bools;
-        std::vector<std::string> strings;
-        std::vector<int> ints;
-        std::vector<double> doubles;
-        bool fb_bool = false;
-        std::string fb_string;
-        int fb_int = 0;
-        double fb_double = 0.0;
-        bool found = false;
-
-        Option(OptionType type)
-            : type(type) {}
-
-        void trySetValue(std::string const& value);
+struct args::Flag {
+    int count = 0;
 };
 
 
-void Option::trySetValue(string const& value) {
-    switch (this->type) {
-        case OptionType::String:
-            this->strings.push_back(value);
-            break;
-        case OptionType::Int:
-            this->ints.push_back(tryStringToInt(value));
-            break;
-        case OptionType::Double:
-            this->doubles.push_back(tryStringToDouble(value));
-            break;
-        case OptionType::Flag:
-            cerr << "Option::trySetValue: invalid code path.\n";
-            exit(1);
-    }
-}
+struct args::Option {
+    vector<string> values;
+    string fallback;
+};
 
 
 // -----------------------------------------------------------------------------
@@ -101,13 +36,11 @@ void Option::trySetValue(string const& value) {
 // -----------------------------------------------------------------------------
 
 
-class args::ArgStream {
-    public:
-        void append(std::string const& arg);
-        std::string next();
-        bool hasNext();
-    private:
-        std::deque<std::string> args;
+struct args::ArgStream {
+    deque<string> args;
+    void append(string const& arg);
+    string next();
+    bool hasNext();
 };
 
 
@@ -129,11 +62,23 @@ bool ArgStream::hasNext() {
 
 
 // -----------------------------------------------------------------------------
-// ArgParser: register options.
+// ArgParser: setup.
 // -----------------------------------------------------------------------------
 
 
-void ArgParser::registerOption(string const& name, Option* option) {
+void ArgParser::flag(string const& name) {
+    Flag* flag = new Flag();
+    stringstream stream(name);
+    string alias;
+    while (stream >> alias) {
+        flags[alias] = flag;
+    }
+}
+
+
+void ArgParser::option(string const& name, string const& fallback) {
+    Option* option = new Option();
+    option->fallback = fallback;
     stringstream stream(name);
     string alias;
     while (stream >> alias) {
@@ -142,143 +87,49 @@ void ArgParser::registerOption(string const& name, Option* option) {
 }
 
 
-void ArgParser::newFlag(string const& name) {
-    registerOption(name, new Option(OptionType::Flag));
-}
-
-
-void ArgParser::newString(string const& name, string const& fallback) {
-    Option* option = new Option(OptionType::String);
-    option->fb_string = fallback;
-    registerOption(name, option);
-}
-
-
-void ArgParser::newInt(string const& name, int fallback) {
-    Option* option = new Option(OptionType::Int);
-    option->fb_int = fallback;
-    registerOption(name, option);
-}
-
-
-void ArgParser::newDouble(string const& name, double fallback) {
-    Option* option = new Option(OptionType::Double);
-    option->fb_double = fallback;
-    registerOption(name, option);
-}
-
-
 // -----------------------------------------------------------------------------
-// ArgParser: retrieve option values.
+// ArgParser: retrieve values.
 // -----------------------------------------------------------------------------
 
 
 bool ArgParser::found(string const& name) {
-    return options[name]->found;
-}
-
-
-bool ArgParser::getFlag(string const& name) {
-    if (options[name]->bools.size() > 0) {
-        return options[name]->bools.back();
+    if (flags.count(name) > 0) {
+        return flags[name]->count > 0;
     }
-    return options[name]->fb_bool;
-}
-
-
-string ArgParser::getString(string const& name) {
-    if (options[name]->strings.size() > 0) {
-        return options[name]->strings.back();
+    if (options.count(name) > 0) {
+        return options[name]->values.size() > 0;
     }
-    return options[name]->fb_string;
-}
-
-
-int ArgParser::getInt(string const& name) {
-    if (options[name]->ints.size() > 0) {
-        return options[name]->ints.back();
-    }
-    return options[name]->fb_int;
-}
-
-
-double ArgParser::getDouble(string const& name) {
-    if (options[name]->doubles.size() > 0) {
-        return options[name]->doubles.back();
-    }
-    return options[name]->fb_double;
+    return false;
 }
 
 
 int ArgParser::count(string const& name) {
-    switch (options[name]->type) {
-        case OptionType::Flag:
-            return options[name]->bools.size();
-        case OptionType::String:
-            return options[name]->strings.size();
-        case OptionType::Int:
-            return options[name]->ints.size();
-        case OptionType::Double:
-            return options[name]->doubles.size();
+    if (flags.count(name) > 0) {
+        return flags[name]->count;
     }
-}
-
-
-vector<string> ArgParser::getStringList(string const& name) {
-    return options[name]->strings;
-}
-
-
-vector<int> ArgParser::getIntList(string const& name) {
-    return options[name]->ints;
-}
-
-
-vector<double> ArgParser::getDoubleList(string const& name) {
-    return options[name]->doubles;
-}
-
-
-// -----------------------------------------------------------------------------
-// ArgParser: retrieve positional arguments.
-// -----------------------------------------------------------------------------
-
-
-bool ArgParser::hasArgs() {
-    return arguments.size() > 0;
-}
-
-
-int ArgParser::numArgs() {
-    return arguments.size();
-}
-
-
-string ArgParser::getArg(int index) {
-    return arguments[index];
-}
-
-
-vector<string> ArgParser::getArgs() {
-    return arguments;
-}
-
-
-vector<int> ArgParser::getArgsAsInts() {
-    vector<int> values;
-    for (auto const & arg: arguments) {
-        values.push_back(tryStringToInt(arg));
+    if (options.count(name) > 0) {
+        return options[name]->values.size();
     }
-    return values;
+    return 0;
 }
 
 
-vector<double> ArgParser::getArgsAsDoubles() {
-    vector<double> values;
-    for (auto const & arg: arguments) {
-        values.push_back(tryStringToDouble(arg));
+string ArgParser::value(string const& name) {
+    if (options.count(name) > 0) {
+        if (options[name]->values.size() > 0) {
+            return options[name]->values.back();
+        }
+        return options[name]->fallback;
     }
-    return values;
+    return string();
+}
+
+
+vector<string> ArgParser::values(string const& name) {
+    if (options.count(name) > 0) {
+        return options[name]->values;
+    }
+    return vector<string>();
 }
 
 
@@ -287,14 +138,13 @@ vector<double> ArgParser::getArgsAsDoubles() {
 // -----------------------------------------------------------------------------
 
 
-ArgParser& ArgParser::newCmd(
+ArgParser& ArgParser::command(
     string const& name,
     string const& helptext,
-    void (*callback)(ArgParser& parser)) {
+    void (*callback)(string cmd_name, ArgParser& cmd_parser)) {
 
     ArgParser *parser = new ArgParser();
     parser->helptext = helptext;
-    parser->parent = this;
     parser->callback = callback;
 
     stringstream stream(name);
@@ -308,28 +158,18 @@ ArgParser& ArgParser::newCmd(
 }
 
 
-bool ArgParser::hasCmd() {
-    return command != "";
+bool ArgParser::commandFound() {
+    return command_name != "";
 }
 
 
-string ArgParser::getCmdName() {
-    return command;
+string ArgParser::commandName() {
+    return command_name;
 }
 
 
-ArgParser& ArgParser::getCmdParser() {
-    return *commands[command];
-}
-
-
-ArgParser& ArgParser::getParent() {
-    return *parent;
-}
-
-
-bool ArgParser::hasParent() {
-    return parent != nullptr;
+ArgParser& ArgParser::commandParser() {
+    return *commands[command_name];
 }
 
 
@@ -340,136 +180,116 @@ bool ArgParser::hasParent() {
 
 // Parse an option of the form --name=value or -n=value.
 void ArgParser::parseEqualsOption(string prefix, string name, string value) {
-
-    // Do we have a registered option?
-    auto const & element = options.find(name);
-    if (element == options.end()) {
+    if (options.count(name) > 0) {
+        if (value.size() > 0) {
+            options[name]->values.push_back(value);
+        } else {
+            cerr << "Error: missing value for " << prefix << name << ".\n";
+            exit(1);
+        }
+    } else {
         cerr << "Error: " << prefix << name << " is not a recognised option.\n";
         exit(1);
     }
-    Option *opt = element->second;
-    opt->found = true;
-
-    // Boolean flags should never contain an equals sign.
-    if (opt->type == OptionType::Flag) {
-        cerr << "Error: invalid format for boolean flag ";
-        cerr << prefix << name << ".\n";
-        exit(1);
-    }
-
-    // Make sure we have a value.
-    if (value.size() == 0) {
-        cerr << "Error: missing value for " << prefix << name << ".\n";
-        exit(1);
-    }
-
-    opt->trySetValue(value);
 }
 
 
 // Parse a long-form option, i.e. an option beginning with a double dash.
 void ArgParser::parseLongOption(string arg, ArgStream& stream) {
-
-    // Do we have an option of the form --name=value?
     size_t pos = arg.find("=");
     if (pos != string::npos) {
         parseEqualsOption("--", arg.substr(0, pos), arg.substr(pos + 1));
         return;
     }
 
-    // Is the argument a registered option name?
-    auto const & element = options.find(arg);
-    if (element != options.end()) {
-        Option *opt = element->second;
-        opt->found = true;
-        if (opt->type == OptionType::Flag) {
-            opt->bools.push_back(true);
-        } else if (stream.hasNext()) {
-            opt->trySetValue(stream.next());
+    if (flags.count(arg) > 0) {
+        flags[arg]->count++;
+        return;
+    }
+
+    if (options.count(arg) > 0) {
+        if (stream.hasNext()) {
+            options[arg]->values.push_back(stream.next());
+            return;
         } else {
             cerr << "Error: missing argument for --" << arg << ".\n";
             exit(1);
         }
-        return;
     }
 
-    // Is the argument an automatic --help flag?
     if (arg == "help" && this->helptext != "") {
         exitHelp();
     }
 
-    // Is the argument an automatic --version flag?
     if (arg == "version" && this->version != "") {
         exitVersion();
     }
 
-    // The argument is not a registered or automatic option name.
-    cerr << "Error: --" << arg << " is not a recognised option.\n";
+    cerr << "Error: --" << arg << " is not a recognised flag or option.\n";
     exit(1);
 }
 
 
 // Parse a short-form option, i.e. an option beginning with a single dash.
 void ArgParser::parseShortOption(string arg, ArgStream& stream) {
-
-    // Do we have an option of the form -n=value?
     size_t pos = arg.find("=");
     if (pos != string::npos) {
         parseEqualsOption("-", arg.substr(0, pos), arg.substr(pos + 1));
         return;
     }
 
-    // We examine each character individually to support condensed options
-    // with trailing arguments: -abc foo bar. If we don't recognise the
-    // character as a registered option name, we check for an automatic
-    // -h or -v flag before exiting.
     for (char& c: arg) {
-        auto const & element = options.find(string(1, c));
-        if (element == options.end()) {
-            if (c == 'h' && this->helptext != "") {
-                exitHelp();
-            } else if (c == 'v' && this->version != "") {
-                exitVersion();
+        string name = string(1, c);
+
+        if (flags.count(name) > 0) {
+            flags[name]->count++;
+            continue;
+        }
+
+        if (options.count(name) > 0) {
+            if (stream.hasNext()) {
+                options[name]->values.push_back(stream.next());
+                continue;
             } else {
-                cerr << "Error: -" << c << " is not a recognised option.\n";
+                if (arg.size() > 1) {
+                    cerr << "Error: missing argument for '" << c << "' in -" << arg << ".\n";
+                } else {
+                    cerr << "Error: missing argument for -" << c << ".\n";
+                }
                 exit(1);
             }
         }
 
-        Option *opt = element->second;
-        opt->found = true;
-
-        if (opt->type == OptionType::Flag) {
-            opt->bools.push_back(true);
-        } else if (stream.hasNext()) {
-            opt->trySetValue(stream.next());
-        } else {
-            cerr << "Error: missing argument for -" << c << ".\n";
-            exit(1);
+        if (c == 'h' && this->helptext != "") {
+            exitHelp();
         }
+
+        if (c == 'v' && this->version != "") {
+            exitVersion();
+        }
+
+        if (arg.size() > 1) {
+            cerr << "Error: '" << c << "' in -" << arg << " is not a recognised flag or option.\n";
+        } else {
+            cerr << "Error: -" << c << " is not a recognised flag or option.\n";
+        }
+        exit(1);
     }
 }
 
 
 // Parse a stream of string arguments.
 void ArgParser::parse(ArgStream& stream) {
-    bool parsing = true;
     bool is_first_arg = true;
 
-    // Loop while we have arguments to process.
     while (stream.hasNext()) {
         string arg = stream.next();
 
-        // If parsing has been turned off, simply add the argument to the
-        // list of positionals.
-        if (!parsing) {
-            arguments.push_back(arg);
-            continue;
-        }
-
         // If we enounter a '--', turn off option parsing.
         if (arg == "--") {
-            parsing = false;
+            while (stream.hasNext()) {
+                args.push_back(stream.next());
+            }
             continue;
         }
 
@@ -484,7 +304,7 @@ void ArgParser::parse(ArgStream& stream) {
         // it as a positional argument.
         if (arg[0] == '-') {
             if (arg.size() == 1 || isdigit(arg[1])) {
-                arguments.push_back(arg);
+                args.push_back(arg);
             } else {
                 parseShortOption(arg.substr(1), stream);
             }
@@ -492,24 +312,22 @@ void ArgParser::parse(ArgStream& stream) {
         }
 
         // Is the argument a registered command?
-        if (is_first_arg) {
-            auto element = commands.find(arg);
-            if (element != commands.end()) {
-                ArgParser *cmdparser = element->second;
-                this->command = arg;
-                cmdparser->parse(stream);
-                cmdparser->callback(*cmdparser);
-                continue;
+        if (is_first_arg && commands.count(arg) > 0) {
+            ArgParser* command_parser = commands[arg];
+            command_name = arg;
+            command_parser->parse(stream);
+            if (command_parser->callback != nullptr) {
+                command_parser->callback(arg, *command_parser);
             }
+            continue;
         }
 
         // Is the argument the automatic 'help' command?
-        if (is_first_arg && arg == "help") {
+        if (is_first_arg && arg == "help" && commands.size() > 0) {
             if (stream.hasNext()) {
                 string name = stream.next();
                 if (commands.find(name) == commands.end()) {
-                    cerr << "Error: '" << name;
-                    cerr << "' is not a recognised command.\n";
+                    cerr << "Error: '" << name << "' is not a recognised command.\n";
                     exit(1);
                 } else {
                     commands[name]->exitHelp();
@@ -521,7 +339,7 @@ void ArgParser::parse(ArgStream& stream) {
         }
 
         // Otherwise add the argument to our list of positional arguments.
-        this->arguments.push_back(arg);
+        args.push_back(arg);
         is_first_arg = false;
     }
 }
@@ -557,40 +375,33 @@ static ostream& operator<<(ostream& stream, const vector<T>& vec) {
 }
 
 
-// Print the parser instance to standard out.
+// Dump the parser's state to stdout.
 void ArgParser::print() {
     cout << "Options:\n";
     if (options.size() > 0) {
         for (auto element: options) {
             cout << "  " << element.first << ": ";
             Option *option = element.second;
-            switch (option->type) {
-                case OptionType::Flag:
-                    cout << "(" << option->fb_bool << ") ";
-                    cout << option->bools;
-                    break;
-                case OptionType::String:
-                    cout << "(" << option->fb_string << ") ";
-                    cout << option->strings;
-                    break;
-                case OptionType::Int:
-                    cout << "(" << option->fb_int << ") ";
-                    cout << option->ints;
-                    break;
-                case OptionType::Double:
-                    cout << "(" << option->fb_double << ") ";
-                    cout << option->doubles;
-                    break;
-            }
+            cout << "(" << option->fallback << ") ";
+            cout << option->values;
             cout << "\n";
         }
     } else {
         cout << "  [none]\n";
     }
 
+    cout << "\nFlags:\n";
+    if (flags.size() > 0) {
+        for (auto element: flags) {
+            cout << "  " << element.first << ": " << element.second->count << "\n";
+        }
+    } else {
+        cout << "  [none]\n";
+    }
+
     cout << "\nArguments:\n";
-    if (arguments.size() > 0) {
-        for (auto arg: arguments) {
+    if (args.size() > 0) {
+        for (auto arg: args) {
             cout << "  " << arg << "\n";
         }
     } else {
@@ -598,8 +409,8 @@ void ArgParser::print() {
     }
 
     cout << "\nCommand:\n";
-    if (this->hasCmd()) {
-        cout << "  " << command << "\n";
+    if (commandFound()) {
+        cout << "  " << command_name << "\n";
     } else {
         cout << "  [none]\n";
     }
@@ -626,26 +437,27 @@ void ArgParser::exitVersion() {
 
 
 ArgParser::~ArgParser() {
-
-    // Free the memory occupied by registered Option instances. Each
-    // instance can be registered under multiple names.
-    vector<Option*> odel;
+    set<Option*> unique_options;
     for (auto element: options) {
-        Option *optionptr = element.second;
-        if (find(odel.begin(), odel.end(), optionptr) == odel.end()) {
-            delete optionptr;
-            odel.push_back(optionptr);
-        }
+        unique_options.insert(element.second);
+    }
+    for (auto pointer: unique_options) {
+        delete pointer;
     }
 
-    // Free the memory occupied by registered command parsers. Each parser
-    // instance can be registered under multiple names.
-    vector<ArgParser*> pdel;
+    set<Flag*> unique_flags;
+    for (auto element: flags) {
+        unique_flags.insert(element.second);
+    }
+    for (auto pointer: unique_flags) {
+        delete pointer;
+    }
+
+    set<ArgParser*> unique_cmd_parsers;
     for (auto element: commands) {
-        ArgParser *parserptr = element.second;
-        if (find(pdel.begin(), pdel.end(), parserptr) == pdel.end()) {
-            delete parserptr;
-            pdel.push_back(parserptr);
-        }
+        unique_cmd_parsers.insert(element.second);
+    }
+    for (auto pointer: unique_cmd_parsers) {
+        delete pointer;
     }
 }

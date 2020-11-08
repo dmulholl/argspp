@@ -4,4 +4,4 @@
 
 title = "Args++"
 tagline = "An argument-parsing library for C++."
-version = "Version 1.0.0"
+version = "2.0.0.dev"

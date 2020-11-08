@@ -3,4 +3,5 @@
 An argument-parsing library for C++.
 
 * [Documentation](http://www.dmulholl.com/docs/argspp/master/)
-* [Example](https://github.com/dmulholl/argspp/blob/master/src/example.cpp)
+* [Basic Example](https://github.com/dmulholl/argspp/blob/master/src/example1.cpp)
+* [Command Example](https://github.com/dmulholl/argspp/blob/master/src/example2.cpp)

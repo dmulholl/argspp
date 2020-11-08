@@ -17,7 +17,7 @@
             <p class="tagline">An argument-parsing library for C++.</p>
             
             
-            <p class="version">Version 1.0.0</p>
+            <p class="version">2.0.0.dev</p>
             
             <nav class="menu">
                 <input id="menu-check" type="checkbox"/>
@@ -30,6 +30,7 @@
 <li><a href="index.html">Home</a></li>
 <li><a href="cli.html">CLI</a></li>
 <li><a href="api.html">API</a></li>
+<li><a href="license.html">License</a></li>
 <li><a href="https://github.com/dmulholl/argspp">Github</a></li>
 </ul>
             </nav>
@@ -42,208 +43,118 @@
             </header>
             <ul class="stx-toc">
 <li>
-<a href="#basic-usage">Basic Usage</a>
+<a href="#setup">Setup</a>
 </li>
 <li>
-<a href="#register-options">Register Options</a>
+<a href="#flags-and-options">Flags and Options</a>
 </li>
 <li>
-<a href="#retrieve-a-single-value">Retrieve A Single Value</a>
+<a href="#retrieving-values">Retrieving Values</a>
 </li>
 <li>
-<a href="#retrieve-multiple-values">Retrieve Multiple Values</a>
-</li>
-<li>
-<a href="#retrieve-positional-arguments">Retrieve Positional Arguments</a>
+<a href="#positional-arguments">Positional Arguments</a>
 </li>
 <li>
 <a href="#commands">Commands</a>
 </li>
 </ul>
 <hr>
+<h3 id="setup">
+Setup
+</h3>
 <p>
 This library is written in portable C++11.
 The header file exports an <code>args::ArgParser</code> class which provides the public interface to the library.
 </p>
-<h2 id="basic-usage">
-Basic Usage
-</h2>
+<dl>
+<div>
+<dt>
+<code>ArgParser(string helptext = &quot;&quot;, string version = &quot;&quot;)</code>
+</dt>
+<dd>
 <p>
-Initialize an argument parser, optionally specifying the application's help text and version:
+Initialize an <code>ArgParser</code> instance. Supplying help text activates an automatic <code>--help</code> flag; supplying a version string activates an automatic <code>--version</code> flag. (Automatic <code>-h</code> and <code>-v</code> shortcuts are also activated unless registered by other options.)
 </p>
-<pre class="lang-c++ pygments" data-lang="c++">
-<span class="n">ArgParser</span><span class="p">(</span><span class="n">string</span> <span class="n">helptext</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span> <span class="n">version</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
-</pre>
+</dd>
+</div>
+<div>
+<dt>
+<code>void .parse(int argc, char **argv)</code>
+</dt>
+<dd>
 <p>
-Supplying help text activates an automatic <code>--help</code> flag; supplying a version string activates an automatic <code>--version</code> flag. (Automatic <code>-h</code> and <code>-v</code> shortcuts are also activated unless registered by other options.)
-</p>
-<p>
-You can now register your application's options and commands on the parser using the registration functions described below. Once the required options and commands have been registered, call the parser's <code>parse()</code> method to process the application's command line arguments:
-</p>
-<pre class="lang-c++ pygments" data-lang="c++">
-<span class="kt">void</span> <span class="n">ArgParser</span><span class="o">::</span><span class="n">parse</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
-</pre>
-<p>
-The arguments are assumed to be <code>argc</code> and <code>argv</code> as supplied to <code>main()</code>.
-</p>
-<p>
+Parse the application's command line arguments.
+Arguments are assumed to be <code>argc</code> and <code>argv</code> as supplied to <code>main()</code>.
 Parsed option values can be retrieved from the parser instance itself.
 </p>
-<h2 id="register-options">
-Register Options
-</h2>
-<p>
-Args++ supports long-form options, <code>--foo</code>, with single-character shortcuts, <code>-f</code>.
-</p>
-<p>
-An option can have an unlimited number of long and short-form aliases. Aliases are specified via the <code>name</code> parameter which accepts a string of space-separated alternatives, e.g. <code>&quot;foo f&quot;</code>.
-</p>
-<p>
-Option values can be separated on the command line by either a space, <code>--foo 123</code>, or an equals symbol, <code>--foo=123</code>.
-</p>
+</dd>
+</div>
+</dl>
+<h3 id="flags-and-options">
+Flags and Options
+</h3>
 <dl>
 <div>
 <dt>
-<code>void ArgParser::newFlag(string name)</code>
+<code>void .flag(string name)</code>
 </dt>
 <dd>
 <p>
-Register a flag (a boolean option) with a default value of <code>false</code>. Flag options take no arguments but are either present (<code>true</code>) or absent (<code>false</code>).
+Registers a new flag.
+The <code>name</code> parameter accepts an unlimited number of space-separated aliases and single-character shortcuts.
 </p>
 </dd>
 </div>
 <div>
 <dt>
-<code>void ArgParser::newDouble(string name, double fallback = 0.0)</code>
+<code>void .option(string name, string fallback = &quot;&quot;)</code>
 </dt>
 <dd>
 <p>
-Register a floating-point option, optionally specifying a default value.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>void ArgParser::newInt(string name, int fallback = 0)</code>
-</dt>
-<dd>
-<p>
-Register an integer option, optionally specifying a default value.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>void ArgParser::newString(string name, string fallback = &quot;&quot;)</code>
-</dt>
-<dd>
-<p>
-Register a string option, optionally specifying a default value.
+Registers a new option.
+The <code>name</code> parameter accepts an unlimited number of space-separated aliases and single-character shortcuts.
+A fallback value can be specified which will be used if the option is not found.
 </p>
 </dd>
 </div>
 </dl>
-<h2 id="retrieve-a-single-value">
-Retrieve A Single Value
-</h2>
-<p>
-An option's value can be retrieved from the parser instance using any of its registered aliases.
-</p>
-<p>
-Each option maintains an internal array of values — the value of the option is the final value in the array or the fallback value if the array is empty.
-</p>
+<h3 id="retrieving-values">
+Retrieving Values
+</h3>
 <dl>
 <div>
 <dt>
-<code>int ArgParser::count(string name)</code>
+<code>bool .found(string name)</code>
 </dt>
 <dd>
 <p>
-Returns the number of times the specified option was found.
+Returns true if the specified flag or option was found.
 </p>
 </dd>
 </div>
 <div>
 <dt>
-<code>bool ArgParser::found(string name)</code>
+<code>int .count(string name)</code>
 </dt>
 <dd>
 <p>
-Returns true if the specified option was found.
+Returns the number of times the specified flag or option was found.
 </p>
 </dd>
 </div>
 <div>
 <dt>
-<code>bool ArgParser::getFlag(string name)</code>
+<code>string .value(string name)</code>
 </dt>
 <dd>
 <p>
-Returns the value of the specified boolean option.
+Returns the value of the specified option. Returns the fallback value if the option was not found.
 </p>
 </dd>
 </div>
 <div>
 <dt>
-<code>double ArgParser::getDouble(string name)</code>
-</dt>
-<dd>
-<p>
-Returns the value of the specified floating-point option.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>int ArgParser::getInt(string name)</code>
-</dt>
-<dd>
-<p>
-Returns the value of the specified integer option.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>string ArgParser::getString(string name)</code>
-</dt>
-<dd>
-<p>
-Returns the value of the specified string option.
-</p>
-</dd>
-</div>
-</dl>
-<h2 id="retrieve-multiple-values">
-Retrieve Multiple Values
-</h2>
-<p>
-An option's internal array of values can be retrieved from the parser instance using any of its registered aliases.
-</p>
-<dl>
-<div>
-<dt>
-<code>vector&lt;double&gt; ArgParser::getDoubleList(string name)</code>
-</dt>
-<dd>
-<p>
-Returns the specified option's list of values.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>vector&lt;int&gt; ArgParser::getIntList(string name)</code>
-</dt>
-<dd>
-<p>
-Returns the specified option's list of values.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>vector&lt;string&gt; ArgParser::getStringList(string name)</code>
+<code>vector&lt;string&gt; .values(string name)</code>
 </dt>
 <dd>
 <p>
@@ -252,156 +163,65 @@ Returns the specified option's list of values.
 </dd>
 </div>
 </dl>
-<h2 id="retrieve-positional-arguments">
-Retrieve Positional Arguments
-</h2>
-<p>
-Options can be preceded, followed, or interspaced with positional arguments.
-</p>
+<h3 id="positional-arguments">
+Positional Arguments
+</h3>
 <dl>
 <div>
 <dt>
-<code>string ArgParser::getArg(int index)</code>
+<code>vector&lt;string&gt; .args</code>
 </dt>
 <dd>
 <p>
-Returns the positional argument at the specified index.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>vector&lt;string&gt; ArgParser::getArgs()</code>
-</dt>
-<dd>
-<p>
-Returns the positional arguments as a list of strings.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>vector&lt;double&gt; ArgParser::getArgsAsDoubles()</code>
-</dt>
-<dd>
-<p>
-Attempts to parse and return the positional arguments as a list of doubles.
-Exits with an error message on failure.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>vector&lt;int&gt; ArgParser::getArgsAsInts()</code>
-</dt>
-<dd>
-<p>
-Attempts to parse and return the positional arguments as a list of
-integers. Exits with an error message on failure.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>bool ArgParser::hasArgs()</code>
-</dt>
-<dd>
-<p>
-Returns true if at least one positional argument has been found.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>int ArgParser::numArgs()</code>
-</dt>
-<dd>
-<p>
-Returns the number of positional arguments.
+Stores the positional arguments.
 </p>
 </dd>
 </div>
 </dl>
-<h2 id="commands">
+<h3 id="commands">
 Commands
-</h2>
-<p>
-Args++ supports git-style command interfaces with arbitrarily-nested commands. Register a command on a parser instance using the <code>newCmd()</code> method:
-</p>
-<pre class="lang-c++ pygments" data-lang="c++">
-<span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">ArgParser</span><span class="o">::</span><span class="n">newCmd</span><span class="p">(</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="n">string</span> <span class="n">helptext</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">callback</span><span class="p">)(</span><span class="n">ArgParser</span><span class="o">&amp;</span> <span class="n">parser</span><span class="p">))</span>
-</pre>
-<p>
-This method returns a reference to a new <code>ArgParser</code> instance associated with the command. You can register the command's flags and options on this sub-parser using the standard methods listed above. (Note that you never need to call <code>parse()</code> on a command parser &mdash; if a command is found, its arguments are parsed automatically.)
-</p>
-<ul>
-<li>
-<p>
-Like options, commands can have an unlimited number of aliases specified via the <code>name</code> string.
-</p>
-</li>
-<li>
-<p>
-Commands support an automatic <code>--help</code> flag and an automatic <code>help &lt;name&gt;</code> command using the specified help text.
-</p>
-</li>
-<li>
-<p>
-The specified callback function will be called if the command is found. The callback should accept a reference to the command's <code>ArgParser</code> instance as its sole argument and should return <code>void</code>.
-</p>
-</li>
-</ul>
-<p>
-The following <code>ArgParser</code> methods are also available for processing commands manually:
-</p>
+</h3>
 <dl>
 <div>
 <dt>
-<code>string ArgParser::getCmdName()</code>
+<code>ArgParser&amp; .command(string name, string helptext = &quot;&quot;, callback = nullptr)</code>
 </dt>
 <dd>
 <p>
-Returns the command name, if the parser has found a command.
+Registers a new command.
+The <code>name</code> parameter accepts an unlimited number of space-separated aliases.
+Returns a reference to the command's <code>ArgParser</code> instance &mdash; you can register the command's flags and options on this parser using the standard methods listed above.
+If the command is found the <code>callback</code> function will be called with the command's name and <code>ArgParser</code> instance.
 </p>
 </dd>
 </div>
 <div>
 <dt>
-<code>ArgParser&amp; ArgParser::getCmdParser()</code>
+<code>bool .commandFound()</code>
 </dt>
 <dd>
 <p>
-Returns the command's parser instance, if the parser has found a command.
+Returns true if a command was found.
 </p>
 </dd>
 </div>
 <div>
 <dt>
-<code>ArgParser&amp; ArgParser::getParent()</code>
+<code>string .commandName()</code>
 </dt>
 <dd>
 <p>
-Returns a command parser's parent parser.
+Returns the command name if a command was found.
 </p>
 </dd>
 </div>
 <div>
 <dt>
-<code>bool ArgParser::hasCmd()</code>
+<code>ArgParser&amp; .commandParser()</code>
 </dt>
 <dd>
 <p>
-Returns true if the parser has found a command.
-</p>
-</dd>
-</div>
-<div>
-<dt>
-<code>bool ArgParser::hasParent()</code>
-</dt>
-<dd>
-<p>
-Returns true if the parser has a parent, i.e. is not the root parser.
+Returns the command's parser instance if a command was found.
 </p>
 </dd>
 </div>

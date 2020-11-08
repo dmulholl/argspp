@@ -17,7 +17,7 @@
             <p class="tagline">An argument-parsing library for C++.</p>
             
             
-            <p class="version">Version 1.0.0</p>
+            <p class="version">2.0.0.dev</p>
             
             <nav class="menu">
                 <input id="menu-check" type="checkbox"/>
@@ -30,6 +30,7 @@
 <li><a href="index.html">Home</a></li>
 <li><a href="cli.html">CLI</a></li>
 <li><a href="api.html">API</a></li>
+<li><a href="license.html">License</a></li>
 <li><a href="https://github.com/dmulholl/argspp">Github</a></li>
 </ul>
             </nav>
@@ -40,24 +41,30 @@
                 
                 <hr>
             </header>
-            <h4 id="options">
-Options
-</h4>
-<p>
-Args++ supports four kinds of options: boolean, string, integer, and floating-point.
-</p>
-<ul>
+            <ul class="stx-toc">
 <li>
-<p>
-Boolean options take no arguments but are either present (<i>true</i>) or absent (<i>false</i>).
-</p>
+<a href="#options">Options</a>
 </li>
 <li>
-<p>
-String, integer, and floating-point options require arguments of the appropriate type.
-</p>
+<a href="#multivalued-options">Multivalued Options</a>
+</li>
+<li>
+<a href="#flags">Flags</a>
+</li>
+<li>
+<a href="#positional-arguments">Positional Arguments</a>
+</li>
+<li>
+<a href="#commands">Commands</a>
+</li>
+<li>
+<a href="#negative-numbers">Negative Numbers</a>
 </li>
 </ul>
+<hr>
+<h3 id="options">
+Options
+</h3>
 <p>
 An option can have an unlimited number of long-form aliases and single-character shortcuts: <code>--option</code>, <code>-o</code>.
 </p>
@@ -68,28 +75,34 @@ Option values can be separated by either a space, <code>--opt 123</code>, or an 
 Multiple shortcuts can be condensed into a single block, e.g. <code>-abc foo bar</code>. Trailing arguments are consumed in sequence as required by the options.
 </p>
 <p>
-Options are registered with fallback values which are used if the option is not found. If an option is found multiple times its value is the final value encountered &mdash; i.e. the value of <code>-o 123 -o 456</code> is <code>456</code>.
+Options are registered with default values which are used if the option is not found. If an option is found multiple times its value is the final value encountered.
 </p>
 <h3 id="multivalued-options">
 Multivalued Options
 </h3>
 <p>
-An individual option can be treated as singular or multivalued as circumstances require. Each option maintains an internal array to which newly parsed values are appended; the (singular) value of the option is the final value in the array, or the fallback value if the array is empty.
+Options can be treated as singular or multivalued as circumstances require. Each option maintains an internal list to which newly parsed values are appended; the (singular) value of the option is the final value in the list or the default value if the list is empty.
 </p>
 <p>
 For example, in the command below:
 </p>
 <pre>
-$ myapp --foo 123 --foo 456
+$ myapp --foo abc --foo def
 </pre>
 <p>
-the value of the option <code>foo</code> is <code>456</code> but the array <code>[123, 456]</code> is also available for use if required.
+the value of the option <code>foo</code> is <code>&quot;def&quot;</code> but the array <code>[&quot;abc&quot;, &quot;def&quot;]</code> is also available for use if required.
+</p>
+<h3 id="flags">
+Flags
+</h3>
+<p>
+Flags are valueless options &mdash; they're either present or absent, but take no arguments. Like options, flags can have an unlimited number of long-form aliases and single-character shortcuts: <code>--flag</code>, <code>-f</code>.
 </p>
 <h3 id="positional-arguments">
 Positional Arguments
 </h3>
 <p>
-Command line options can be preceded, followed, or interspaced with positional arguments. The parser assembles all positional arguments together into a single, undifferentiated array of strings. Convenience functions are supplied for parsing these strings as integers or doubles.
+Options and flags can be preceded by, followed by, or interspaced with positional arguments which are assembled by the parser into an array of strings.
 </p>
 <p>
 The parser supports the standard <code>--</code> switch for turning off option-parsing. All arguments following a <code>--</code> will be treated as positional arguments, even if they begin with a single or double dash.
@@ -98,7 +111,7 @@ The parser supports the standard <code>--</code> switch for turning off option-p
 Commands
 </h3>
 <p>
-Args++ supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic <code>--help</code> flag and an automatic <code>help &lt;cmd&gt;</code> command, i.e. the commands
+This library supports git-style command interfaces with arbitrarily-nested commands. Commands have builtin support for an automatic <code>--help</code> flag and an automatic <code>help &lt;cmd&gt;</code> command, i.e. the commands
 </p>
 <pre>
 $ myapp &lt;cmd&gt; --help
@@ -111,6 +124,12 @@ $ myapp help &lt;cmd&gt;
 </pre>
 <p>
 are functionally identical and will both print the help text registered with the command.
+</p>
+<h3 id="negative-numbers">
+Negative Numbers
+</h3>
+<p>
+Some argument-parsing libraries struggle with negative numbers &mdash; for example, they will try to parse <code>-3</code> as a flag or option named <code>3</code>. This library always treats arguments beginning with a dash and a digit as positional arguments or option values, never as flag or option names.
 </p>
         </article>
         

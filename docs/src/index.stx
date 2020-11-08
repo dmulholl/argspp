@@ -1,7 +1,6 @@
 ---
 title: Home
 meta title: Args++ &mdash; an argument-parsing library for C++
-meta description: An argument-parsing library designed for building elegant command-line interfaces.
 ---
 
 
@@ -9,8 +8,7 @@ meta description: An argument-parsing library designed for building elegant comm
 
 * Long-form boolean flags with single-character shortcuts: `--flag`, `-f`.
 
-* Long-form string, integer, and floating-point options with
-  single-character shortcuts: `--option <arg>`, `-o <arg>`.
+* Long-form string-valued options with single-character shortcuts: `--option <arg>`, `-o <arg>`.
 
 * Condensed short-form options: `-abc <arg> <arg>`.
 
@@ -25,7 +23,8 @@ meta description: An argument-parsing library designed for building elegant comm
 ### Links
 
 * [Github](https://github.com/dmulholl/argspp)
-* [Example](https://github.com/dmulholl/argspp/blob/master/src/example.cpp)
+* [Basic Example](https://github.com/dmulholl/argspp/blob/master/src/example1.cpp)
+* [Command Example](https://github.com/dmulholl/argspp/blob/master/src/example2.cpp)
 
 
 
