@@ -5,24 +5,34 @@
 CFLAGS = -Wall -Wextra -Wno-unused-parameter --stdlib=libc++ --std=c++11
 
 # ------------------------------------------------------------------------------
-# Targets.
+# Phony targets.
 # ------------------------------------------------------------------------------
 
-examples: src/example1.cpp src/example2.cpp src/args.cpp src/args.h
-	@mkdir -p bin
-	c++ $(CFLAGS) -o bin/example1 src/example1.cpp src/args.cpp
-	c++ $(CFLAGS) -o bin/example2 src/example2.cpp src/args.cpp
+all::
+	@make lib
+	@make ex1
+	@make ex2
+	@make tests
 
-unittests: src/tests.cpp src/args.cpp src/args.h
+lib::
 	@mkdir -p bin
-	c++ $(CFLAGS) -o bin/tests src/tests.cpp src/args.cpp
+	$(CXX) $(CFLAGS) -c -o bin/args.o src/args.cpp
 
-check:
-	@make unittests
+ex1::
+	@mkdir -p bin
+	$(CXX) $(CFLAGS) -o bin/ex1 src/example1.cpp src/args.cpp
+
+ex2::
+	@mkdir -p bin
+	$(CXX) $(CFLAGS) -o bin/ex2 src/example2.cpp src/args.cpp
+
+tests::
+	@mkdir -p bin
+	$(CXX) $(CFLAGS) -o bin/tests src/tests.cpp src/args.cpp
+
+check::
+	@make tests
 	./bin/tests
 
-clean:
-	rm -f ./src/*.o
-	rm -f ./bin/tests
-	rm -f ./bin/example1
-	rm -f ./bin/example2
+clean::
+	rm -f ./bin/*
