@@ -2,7 +2,7 @@
 # Make variables.
 # ------------------------------------------------------------------------------
 
-CFLAGS = -Wall -Wextra -Wno-unused-parameter --stdlib=libc++ --std=c++11
+CXXFLAGS = -Wall -Wextra -Wno-unused-parameter --stdlib=libc++ --std=c++11
 
 # ------------------------------------------------------------------------------
 # Phony targets.
@@ -16,19 +16,19 @@ all::
 
 lib::
 	@mkdir -p bin
-	$(CXX) $(CFLAGS) -c -o bin/args.o src/args.cpp
+	$(CXX) $(CXXFLAGS) -c -o bin/args.o src/args.cpp
 
 ex1::
 	@mkdir -p bin
-	$(CXX) $(CFLAGS) -o bin/ex1 src/example1.cpp src/args.cpp
+	$(CXX) $(CXXFLAGS) -o bin/ex1 src/example1.cpp src/args.cpp
 
 ex2::
 	@mkdir -p bin
-	$(CXX) $(CFLAGS) -o bin/ex2 src/example2.cpp src/args.cpp
+	$(CXX) $(CXXFLAGS) -o bin/ex2 src/example2.cpp src/args.cpp
 
 tests::
 	@mkdir -p bin
-	$(CXX) $(CFLAGS) -o bin/tests src/tests.cpp src/args.cpp
+	$(CXX) $(CXXFLAGS) -o bin/tests src/tests.cpp src/args.cpp
 
 check::
 	@make tests
