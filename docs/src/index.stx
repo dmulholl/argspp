@@ -1,6 +1,6 @@
 ---
 title: Home
-meta title: Args++ &mdash; an argument-parsing library for C++
+meta title: Args++ &mdash; a ridiculously simple argument-parsing library for C++
 ---
 
 Args++ is a minimalist C++ library for parsing command line arguments.
