@@ -345,14 +345,18 @@ void ArgParser::parse(ArgStream& stream) {
 }
 
 
-// Parse an array of string arguments. We assume that argc and argv are the
-// original parameters passed to main() and skip the first element.
+// Parse an array of string arguments. We assume that [argc] and [argv] are the
+// original parameters passed to main() and skip the first element. In some
+// situations [argv] can be empty, i.e. [argc == 0]. This can lead to security
+// vulnerabilities if not handled explicitly.
 void ArgParser::parse(int argc, char **argv) {
-    ArgStream stream;
-    for (int i = 1; i < argc; i++) {
-        stream.append(argv[i]);
+    if (argc > 1) {
+        ArgStream stream;
+        for (int i = 1; i < argc; i++) {
+            stream.append(argv[i]);
+        }
+        parse(stream);
     }
-    parse(stream);
 }
 
 

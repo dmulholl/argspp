@@ -3,7 +3,7 @@
 //
 // Author: Darren Mulholland <dmulholl@tcd.ie>
 // License: Public Domain
-// Version: 2.0.0
+// Version: 2.1.0
 // -----------------------------------------------------------------------------
 
 #ifndef args_h
