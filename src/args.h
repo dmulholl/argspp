@@ -12,6 +12,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <sstream>
 
 namespace args {
 
@@ -47,10 +48,31 @@ namespace args {
             void parse(std::vector<std::string> args);
 
             // Retrieve flag and option values.
-            bool found(std::string const& name);
-            int count(std::string const& name);
-            std::string value(std::string const& name);
-            std::vector<std::string> values(std::string const& name);
+            bool found(std::string const& name) const;
+            int count(std::string const& name) const;
+            std::string value(std::string const& name) const;
+            std::vector<std::string> values(std::string const& name) const;
+
+            template<typename T>
+            T value(std::string const& name) const
+            {
+                std::string str = value(name);
+                T ret = scan<T>(str);
+                return ret;
+            }
+
+            template<typename T>
+            std::vector<T> values(std::string const& name) const
+            {
+                std::vector<std::string> vec = values(name);
+                std::vector<T> ret;
+                ret.reserve(vec.size);
+                for (size_t i = 0; i < vec.size(); ++i) {
+                    T value = vec[i];
+                    ret.push_back(value);
+                }
+                return ret;
+            }
 
             // Register a command. Returns the command's ArgParser instance.
             ArgParser& command(
@@ -80,6 +102,15 @@ namespace args {
             void parseEqualsOption(std::string prefix, std::string name, std::string value);
             void exitHelp();
             void exitVersion();
+
+            template<typename T>
+            T scan(const std::string &input) const
+            {
+                std::stringstream stream(input);
+                T ret;
+                stream >> ret;
+                return ret;
+            }
     };
 }
 

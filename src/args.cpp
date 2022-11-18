@@ -92,42 +92,42 @@ void ArgParser::option(string const& name, string const& fallback) {
 // -----------------------------------------------------------------------------
 
 
-bool ArgParser::found(string const& name) {
+bool ArgParser::found(string const& name) const {
     if (flags.count(name) > 0) {
-        return flags[name]->count > 0;
+        return flags.at(name)->count > 0;
     }
     if (options.count(name) > 0) {
-        return options[name]->values.size() > 0;
+        return options.at(name)->values.size() > 0;
     }
     return false;
 }
 
 
-int ArgParser::count(string const& name) {
+int ArgParser::count(string const& name) const {
     if (flags.count(name) > 0) {
-        return flags[name]->count;
+        return flags.at(name)->count;
     }
     if (options.count(name) > 0) {
-        return options[name]->values.size();
+        return options.at(name)->values.size();
     }
     return 0;
 }
 
 
-string ArgParser::value(string const& name) {
+string ArgParser::value(string const& name) const {
     if (options.count(name) > 0) {
-        if (options[name]->values.size() > 0) {
-            return options[name]->values.back();
+        if (options.at(name)->values.size() > 0) {
+            return options.at(name)->values.back();
         }
-        return options[name]->fallback;
+        return options.at(name)->fallback;
     }
     return string();
 }
 
 
-vector<string> ArgParser::values(string const& name) {
+vector<string> ArgParser::values(string const& name) const {
     if (options.count(name) > 0) {
-        return options[name]->values;
+        return options.at(name)->values;
     }
     return vector<string>();
 }
