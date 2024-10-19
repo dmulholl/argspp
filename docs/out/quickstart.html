@@ -4,10 +4,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Quickstart Tutorial</title>
+
+        
+
+        
+
         <link rel="stylesheet" href="assets/fonts.css">
         <link rel="stylesheet" href="assets/graphite.css">
         <link rel="stylesheet" href="assets/pygments.css">
+
         
+            <script src="assets/code.js"></script>
+        
+
         
     </head>
     <body class="node-quickstart node">
@@ -36,6 +45,7 @@
 </ul>
             </nav>
         </header>
+
         <article class="main">
             <header class="title">
                 <h1>Quickstart Tutorial</h1>
@@ -51,11 +61,11 @@ We also want to support an <code>--out/-o</code> option so the user can specify 
 First we need to create an <code>ArgParser</code> instance:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
-<span class="cp">#include</span> <span class="cpf">&quot;args.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;args.h&quot;</span>
 
-<span class="n">args</span><span class="o">::</span><span class="n">ArgParser</span> <span class="n">parser</span><span class="p">;</span>
-<span class="n">parser</span><span class="p">.</span><span class="n">helptext</span> <span class="o">=</span> <span class="s">&quot;Usage: mp3cat...&quot;</span><span class="p">;</span>
-<span class="n">parser</span><span class="p">.</span><span class="n">version</span> <span class="o">=</span> <span class="s">&quot;1.0&quot;</span><span class="p">;</span>
+<span class="n">args</span><span class="o">::</span><span class="n">ArgParser</span><span class="w"> </span><span class="n">parser</span><span class="p">;</span>
+<span class="n">parser</span><span class="p">.</span><span class="n">helptext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Usage: mp3cat...&quot;</span><span class="p">;</span>
+<span class="n">parser</span><span class="p">.</span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.0&quot;</span><span class="p">;</span>
 </pre>
 <p>
 Supplying a helptext string for the parser activates an automatic <code>--help/-h</code> flag; similarly, supplying a version string activates an automatic <code>--version/-v</code> flag.
@@ -64,38 +74,39 @@ Supplying a helptext string for the parser activates an automatic <code>--help/-
 Now we can register our options and flags:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
-<span class="n">parser</span><span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">&quot;out o&quot;</span><span class="p">,</span> <span class="s">&quot;default.mp3&quot;</span><span class="p">);</span>
+<span class="n">parser</span><span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">&quot;out o&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;default.mp3&quot;</span><span class="p">);</span>
 <span class="n">parser</span><span class="p">.</span><span class="n">flag</span><span class="p">(</span><span class="s">&quot;quiet q&quot;</span><span class="p">);</span>
 </pre>
 <p>
 That's it, we're done specifying our interface. Now we can parse the program's command line arguments, passing in <code>argc</code> and <code>argv</code> as supplied to <code>main()</code>:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
-<span class="n">parser</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span> <span class="n">argv</span><span class="p">);</span>
+<span class="n">parser</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
 </pre>
 <p>
 This will exit with a suitable error message for the user if anything goes wrong. Now we can check if the <code>--quiet</code> flag was found:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
-<span class="k">if</span> <span class="p">(</span><span class="n">parser</span><span class="p">.</span><span class="n">found</span><span class="p">(</span><span class="s">&quot;quiet&quot;</span><span class="p">))</span> <span class="p">{</span>
-    <span class="n">do_stuff</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">parser</span><span class="p">.</span><span class="n">found</span><span class="p">(</span><span class="s">&quot;quiet&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">do_stuff</span><span class="p">();</span>
 <span class="p">}</span>
 </pre>
 <p>
 And determine our output filepath:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
-<span class="n">string</span> <span class="n">filepath</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="s">&quot;out&quot;</span><span class="p">);</span>
+<span class="n">string</span><span class="w"> </span><span class="n">filepath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parser</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="s">&quot;out&quot;</span><span class="p">);</span>
 </pre>
 <p>
 Positional aguments are collected up in the parser's <code>.args</code> list:
 </p>
 <pre class="lang-c++ pygments" data-lang="c++">
-<span class="k">for</span> <span class="p">(</span><span class="n">string</span><span class="o">&amp;</span> <span class="nl">filename</span><span class="p">:</span> <span class="n">parser</span><span class="p">.</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">do_stuff</span><span class="p">();</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">filename</span><span class="o">:</span><span class="w"> </span><span class="n">parser</span><span class="p">.</span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">do_stuff</span><span class="p">();</span>
 <span class="p">}</span>
 </pre>
         </article>
+
         
     </body>
 </html>
